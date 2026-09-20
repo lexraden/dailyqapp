@@ -1,0 +1,2 @@
+# DailyQApp dependencies
+# For now, no external dependencies
