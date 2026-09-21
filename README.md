@@ -1,7 +1,5 @@
 # DailyQApp
 
-AQApp
-
 A simple daily quest application.
 
 ## Features
@@ -23,8 +21,10 @@ pip install -r requirements.txt
 ## Usage
 
 ```bash
-python src/dailyq.py
+python src/dailyq.py [name]
 ```
+
+If name is provided, it will be used in the greeting; defaults to "Traveler".
 
 ## License
 
