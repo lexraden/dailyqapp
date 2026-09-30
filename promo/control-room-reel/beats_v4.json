@@ -1,0 +1,57 @@
+[
+ {
+  "t": 0.0,
+  "label": "CR hero",
+  "url": "/control-room"
+ },
+ {
+  "t": 9.0,
+  "label": "CR agent panel",
+  "url": "/control-room"
+ },
+ {
+  "t": 16.0,
+  "label": "KANBAN board",
+  "url": "/kanban"
+ },
+ {
+  "t": 27.0,
+  "label": "KANBAN detail",
+  "url": "/kanban"
+ },
+ {
+  "t": 40.0,
+  "label": "LOGS",
+  "url": "/logs"
+ },
+ {
+  "t": 45.0,
+  "label": "LOGS filtered",
+  "url": "/logs"
+ },
+ {
+  "t": 53.0,
+  "label": "SESSIONS",
+  "url": "/sessions"
+ },
+ {
+  "t": 58.0,
+  "label": "SESSIONS sweep",
+  "url": "/sessions"
+ },
+ {
+  "t": 64.0,
+  "label": "CR again",
+  "url": "/control-room"
+ },
+ {
+  "t": 78.0,
+  "label": "KANBAN result",
+  "url": "/kanban"
+ },
+ {
+  "t": 84.0,
+  "label": "CR hero final",
+  "url": "/control-room"
+ }
+]

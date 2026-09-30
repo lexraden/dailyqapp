@@ -1,0 +1,106 @@
+{
+ "DdnFMqVFCTj": {
+  "01.jpg": {
+   "ts": 0,
+   "analysis": "A large widescreen monitor dominates a dark desk, displaying a dense futuristic interface with connected floor-plan-like modules, grids, panels, and glowing data points. A slim red-lit rod or antenna crosses the foreground; a green-backlit keyboard sits at bottom right, with a red cup beneath the screen. Behind it is a vivid red wall and an open doorway glowing warm yellow.\n\nNo clearly legible text, captions, or overlays are visible; interface labels are too small or blurred to quote.\n\nThe scene uses saturated red, neon green, cyan, and black for a cyberpunk/sci-fi look. Thin luminous lines and bright nodes suggest animated data flow. Vertical smartphone framing, low-key lighting, slight"
+  },
+  "09.jpg": {
+   "ts": 24,
+   "analysis": "A vertical handheld shot shows a widescreen monitor displaying a futuristic holographic city or circuit map. Glowing routes connect rectangular zones, including a bright green central hub, orange and red modules, and a small color-coded minimap at bottom right. Neon-green interface borders and tiny status panels frame the display. The monitor stands against a magenta-red wall, with a softly lit beige doorway behind it. No clearly legible captions or interface labels are visible due to blur and scale. The visual style is high-contrast sci-fi, dominated by black, electric green, red, and orange. Screen glow and scan-line-like details suggest animation, though none is directly evident in the still. Production quality is"
+  },
+  "35.jpg": {
+   "ts": 96,
+   "analysis": "A close, slightly tilted shot shows a widescreen monitor filled with a retro computer-terminal interface. Multiple neon-green outlined panels contain status fields, lists, and four video thumbnails;"
+  },
+  "18.jpg": {
+   "ts": 48,
+   "analysis": "A vertically framed, heavily blurred indoor scene. The upper half is dark and indistinct, with shadowy structural shapes; the lower half contains a large bright cyan-white rectangular surface, possibly a screen, tabletop, or illuminated panel, edged by a dark vertical strip on the right. Pink and magenta light spills across the middle against deep blue and black tones. No visible text, captions, logos, or overlays. The extreme softness, motion blur, uneven bands, and blown highlights suggest handheld camera movement or an accidental close-up, with low production clarity."
+  },
+  "26.jpg": {
+   "ts": 72,
+   "analysis": "Close-up of a computer monitor displaying a dark, grid-like interface with neon-green borders, rows of small text, and several pale image-preview panels. The screen is cropped at the top and right; below it is a dim workstation area with reddish-purple ambient light and a hanging cable. No people are visible.\n\nNo caption or overlay appears. The interface text is too blurred to read or quote.\n\nThe image has a cyberpunk/retro-tech look: black background, bright green glow, cool white panels, and purple accents. Small sans-serif-style UI text, strong screen glow, soft focus, and slight handheld tilt give it a low-light, amateur production quality. No clear motion is visible."
+  },
+  "43.jpg": {
+   "ts": 120,
+   "analysis": "1) A vertically framed, slightly canted close-up of a widescreen monitor dominates the scene. It shows a futuristic dashboard divided into boxed panels, status bars, lists, and several colorful module icons. A faint reflection of the person filming appears near center. Red walls and a pale doorway are visible above.\n\n2) No external captions. Clearly legible interface text includes “91%” and “15 Live”; the remaining small UI labels are too blurred or stylized to quote reliably.\n\n3) Neon-green-on-black terminal aesthetic with cyan and white accents, thin grids, progress bars, and compact all-caps digital typography. Soft focus, low-light grain, glare, reflections, and the tilted framing create handheld motion cues and a moody sci-fi production style."
+  }
+ },
+ "DdlNfHyFOGM": {
+  "01.jpg": {
+   "ts": 0,
+   "analysis": "A vertical workstation scene is bathed in intense red lighting. A large widescreen monitor fills the middle of the frame, showing multiple side-by-side dark-themed code-editor windows and"
+  },
+  "17.jpg": {
+   "ts": 45,
+   "analysis": "(1) A vertical, dark motion-graphics frame shows a stylized desktop app centered on screen. Three colored mouse pointers operate within it: blue and orange near an input"
+  },
+  "28.jpg": {
+   "ts": 75,
+   "analysis": "A centered, tight vertical selfie shows a young man with side-parted brown hair wearing a plush white robe, seated in a black mesh office chair and speaking toward the camera. Behind him are softly focused bookshelves and a black object. A lower-center caption reads exactly “app Compound.” in bold white sans-serif with a black outline. The word “QUATRO” is also visible in black lettering in the upper-right background. The image has warm cream, pink, and brown tones, bright soft indoor lighting, and a slightly reddish color cast. His open mouth suggests mid-speech motion. Overall, it has a polished but casual smartphone/social-media look, with a clear foreground and mildly blurred background."
+  },
+  "06.jpg": {
+   "ts": 15,
+   "analysis": "A static, vertically oriented developer infographic shows three evenly spaced columns connected by thin lines. Top labels read “Agent 1,” “Agent 2,” and “Agent 3,” with blue, purple, and orange accents. Each column contains a “git worktree” folder labeled “agent-1/,” “agent-2/,” or “agent-3/,” above a “Your app” window marked “dev server.” Ports below are “:9222,” “:9223,” and “:9224,” with “--remote-debugging-port” centered underneath. A terminal-style box reads “$ agent-browser --cdp 9222” with a yellow cursor. The lower caption is cropped to “browser CLI to.” The near-black dotted background, charcoal panels, white sans-serif typography, and bright accents create a polished tech-tutorial style. No motion cues are visible."
+  },
+  "12.jpg": {
+   "ts": 30,
+   "analysis": "A vertical black infographic with a subtle dotted grid shows a comparison of computer vision and CDP. At top: “REASON 01” and the large headline “It reads the DOM.” A dark rounded panel says “COMPUTER USE SEES,” pairing a blurred pixel-grid interface with “Pixels” and “a guess at what’s on screen.” Below, a yellow-outlined panel labeled “CDP SEES” displays:\n\n“<div class=\"editor\">”\n“<button id=\"export\" disabled>”\n“<input name=\"title\" value=\"Q3 recap\">”\n“<span class=\"status\">Rendering 42%</span>”\n“<ul class=\"timeline\"> 14 clips </ul>”\n“</div>”\n\nThe footer reads “not just screenshots.” Modern sans-serif typography, monospaced code, white/gray text, yellow accents, glow, and clean high-contrast production. No motion cues are visible in this still."
+  },
+  "23.jpg": {
+   "ts": 60,
+   "analysis": "Portrait infographic on a nearly black background with a faint repeating plus-sign pattern. At the upper left, the text reads “WHERE IT RUNS” and “Computer use.” Four rounded dark panels appear in a 2×2 grid: “macOS” with “your laptop” and a green check; “Windows” with a red X; “Linux” with a red X; and “Cloud VPS” with “ubuntu · headless” and a red X. Computer and server icons accompany the labels. Near the bottom center is the caption “you wouldn't be.” The design uses bold white sans-serif typography, gray secondary text, and neon green/red status symbols. It is clean, high-contrast, and professionally produced, with no visible motion cues in this still."
+  }
+ },
+ "DdrHAI1MrFb": {
+  "11.jpg": {
+   "ts": 30,
+   "analysis": "Vertical educational infographic on a pale grid. A cartoon spiky-haired character holds a laptop beside “PROBLEM / One server can’t keep up.” The central “BLUEPRINT · SOCIAL APP” (“V1”) panel shows “USERS / phones / browsers” connected by blue dots to “ONE MACHINE,” “BACKEND / your code,” and “DATABASE / your data,” each marked “×1,” plus “CPU 100%.” Header: “SYSTEM DESIGN 101,” “01 ONE SERVER,” “250K USERS”; tags: “LB,” “CACHE,” “REPLICAS,” “SHARDS,” “STORAGE,” “CDN,” “QUEUE,” “REDUNDANCY,” “OBSERVABILITY.” Bottom caption: “server can’t handle.” Polished vector-animation style with cream, navy monospaced type, red/pink warnings, blue nodes, purple badges, rounded cards, and soft shadows; blue dots imply traffic, with no motion visible."
+  },
+  "21.jpg": {
+   "ts": 60,
+   "analysis": "A vertical, polished educational infographic sits on a pale grid background. The top reads “SYSTEM DESIGN 101,” “03 THE DATABASE,” and “20M USERS,” with tags: “LB,” “CACHE,” “REPLICAS,” “SHARDS,” “STORAGE,” “CDN,” “QUEUE,” “REDUNDANCY,” and “OBSERVABILITY.” At left, a cartoon scientist stands beside “PROBLEM” and “One cluster can’t hold it all.”\n\nThe central “BLUEPRINT · SOCIAL APP” panel, marked “V4,” diagrams “USERS” (“phones · browsers”) flowing through “LOAD BALANCER” (“NGINX · ELB”), four “SERVER” boxes (“app”), “CACHE” (“Redis · memory”), and “REPLICA” (“reads”) / “DATABASE” (“primary · writes”) / “REPLICA” (“reads”). A red badge says “DISK 97% · 4 TB.” Bottom caption: “enough.”\n\nStyle uses crisp vector graphics, rounded cards, monospaced uppercase typography, and restrained red, purple, blue, and yellow accents. Connector lines and colored nodes imply data flow; the frame itself is static."
+  },
+  "32.jpg": {
+   "ts": 90,
+   "analysis": "A pale gray grid supports a dashboard layout: a problem card and blue-haired cartoon scientist with a laptop on the left; a world map and status panel on the right.\n\nText: “SYSTEM DESIGN 101,” “06 FAILURE,” “50M USERS”; tabs: “LB,” “CACHE,” “REPLICAS,” “SHARDS,” “STORAGE,” “CDN,” “QUEUE,” “REDUNDANCY,” “OBSERVABILITY.” Cards: “PROBLEM,” “A whole region"
+  },
+  "42.jpg": {
+   "ts": 120,
+   "analysis": "A vertical educational infographic appears on a pale gray grid background. At left, a blue-haired cartoon man in a black hoodie holds a sticker-covered laptop. The header reads “SYSTEM DESIGN 101,” “08 THE MISTAKE,” and “50M USERS,” with tags: “LB,” “CACHE,” “REPLICAS,” “SHARDS,” “STORAGE,” “CDN,” “QUEUE,” “REDUNDANCY,” and “OBSERVABILITY.” A callout says “COST” and “More isn’t better.”\n\nFour rounded white cards show: “MICROSERVICES” / “a service per verb”; “KAFKA” / “event streaming”; “KUBERNETES” / “container orchestration”; and “10 DATABASES” / “one for every feature.” The bottom caption reads “That’s not good system.”\n\nClean, polished flat-vector style with navy, blue, purple, white, gray, and yellow; bold sans-serif typography, soft shadows, and no visible motion in the still."
+  },
+  "52.jpg": {
+   "ts": 150,
+   "analysis": "On a pale gray grid background, a vertical educational infographic combines a top navigation bar, a central architecture card, a cartoon scientist holding a laptop on the left, and a bold title block below. The diagram maps “USERS” through “CDN,” “LOAD BALANCER,” servers, storage, cache, queue, sharded replicas/databases, workers, and “OBSERVABILITY,” with blue connector lines and arrows. Visible text: “SYSTEM DESIGN 101,” “09 THE METHOD,” “50M USERS,” “LB,” “CACHE,” “REPLICAS,” “SHARDS,” “STORAGE,” “CDN,” “QUEUE,” “REDUNDANCY,” “OBSERVABILITY,” “BLUEPRINT · SOCIAL APP,” “V9,” and “That's system design 101.” Black, gray, white, purple, and blue dominate, with small green/red/pink accents. Rounded cards, soft shadows, grid texture, and bold"
+  },
+  "01.jpg": {
+   "ts": 0,
+   "analysis": "On an off-white grid, a stylized Rick-like cartoon holding a portal gun stands left of an architecture card. Headed “BLUEPRINT · SOCIAL APP” and tagged “V9,” it diagrams “USERS,” “CDN,” “LOAD BALANCER,” “SERVER,” “STORAGE,” “CACHE,” “QUEUE,” “WORKER,” “REPLICA,” “DATABASE,” and “OBSERVABILITY.” The top bar says “SYSTEM DESIGN 101,” “GO THE"
+  }
+ },
+ "Ddn2XyhoH2l": {
+  "04.jpg": {
+   "ts": 9,
+   "analysis": "Vertical smartphone shot of a young man in a white shirt seated side-on at a desk, looking toward a laptop. A large white RGB microphone dominates the center foreground, glowing pink and cyan; a dark monitor, wall clock, and string lights sit in the warmly lit background.\n\nCentered Russian captions in black monospaced text on white strips read:\n“как я выгляжу, работая с ИИ:\nтакже, как звучат мои промты:”\n\nWarm amber color grading, natural room lighting, and a casual creator-style setup. The close side angle and slight hand blur suggest active typing, though no clear motion is visible. Production quality is clean and well exposed."
+  },
+  "07.jpg": {
+   "ts": 18,
+   "analysis": "A young man in a white T-shirt sits in left profile at a desk, leaning toward a laptop on the right. A large"
+  },
+  "15.jpg": {
+   "ts": 45,
+   "analysis": "(1) A vertical desk scene shows an open laptop on the left, a larger monitor behind it displaying a Russian AI/code interface, and a microphone at the right edge. Warm room light mixes with the blue glow of the screens.\n\n(2) Centered overlay in two white boxes reads exactly: “как я выгляжу, работая с ИИ:” and “также, как звучат мои промты:”. Smaller monitor text is not clearly legible.\n\n(3) Casual smartphone-reel style with black sans-serif captions, soft focus, slight screen glare, and low-contrast warm lighting. No clear motion is visible in this still."
+  },
+  "01.jpg": {
+   "ts": 0,
+   "analysis": "A vertical close-up shows a young man in side profile working at a laptop on a desk. A large RGB microphone dominates the foreground, with a monitor, wall clock, and string lights behind him in a warm yellow room. His hand rests on the keyboard, suggesting active typing; there is no obvious motion blur.\n\nCentered white text boxes display the exact Russian captions:\n“как я выгляжу, работая с ИИ:\nтакже, как звучат мои промты:”\n\nThe video has a casual social-media style, warm color grading, black sans-serif typography, and clear foreground detail with a slightly softer background."
+  },
+  "09.jpg": {
+   "ts": 27,
+   "analysis": "Vertical close-up of a young man in left profile at a desk, looking toward two monitors. A large silver USB condenser microphone on a tripod dominates the center; a keyboard, mouse, and screens fill the background. Two centered white caption boxes read: “как я выгляжу, работая с ИИ:” and “также, как звучат мои промпты:”. A bottom-right cartoon sticker shows a pink character using a retro computer, with green text repeatedly reading “LOADING...”. Warm amber lighting contrasts with blue-white monitor glow and green microphone LEDs. The vertical composition is polished and social-media ready, with slight screen blur/compression; no clear motion is visible in the still."
+  },
+  "12.jpg": {
+   "ts": 36,
+   "analysis": "A vertical close-up shows a young man in profile at upper left, leaning toward two monitors displaying blurred code. A large white-and-gray microphone on a black tripod dominates the center; headphones and his hand appear along the bottom. A pink cartoon cat meme is overlaid near the lower right.\n\nCentered Russian text in black sans-serif type on two white boxes reads: “как я выгляжу, работая с ИИ: также, как звучат мои промты:” The meme’s CRT screen repeatedly reads “LOADING.”\n\nWarm amber room lighting contrasts with cool blue screens. The layered composition has a playful tech aesthetic, clear phone-shot quality, and slight screen blur. The typing posture and meme placement imply a fast-paced work montage."
+  }
+ }
+}

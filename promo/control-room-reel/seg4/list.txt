@@ -1,0 +1,8 @@
+file 'cr_hero.mp4'
+file 'kanban.mp4'
+file 'kanban_detail.mp4'
+file 'logs.mp4'
+file 'sessions.mp4'
+file 'cr_panel.mp4'
+file 'kanban_result.mp4'
+file 'cr_final.mp4'

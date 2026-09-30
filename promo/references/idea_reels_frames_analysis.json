@@ -1,0 +1,873 @@
+{
+ "DdrHAI1MrFb": {
+  "meta": {
+   "author": "rick.theengineer",
+   "likes": 31392,
+   "comments": 188,
+   "desc": "Load balancer. Cache. Queue. CDN. Replica. Shard. 🧠\n\nIf those sound like a pile of random buzzwords, this one's for you.\n\nHere's the secret: nobody sits down and designs a system with 9 components. You start with ONE server, and every new piece gets added because something broke.\n\nHere's the whole thing in order 👇\n\n1️⃣ One server can't keep up → add more servers + a load balancer\n2️⃣ Every server hammers the same database → add a cache (Redis)\n3️⃣ Reads keep growing → add read replicas\n4️⃣ One database can't hold it all → shard the data\n5️⃣ Photos and videos bloat the database → move them to object storage (S3 / R2)\n6️⃣ Users far away wait forever → put a CDN in front\n7️⃣ Uploads make users wait on slow jobs → add a queue + background workers\n8️⃣ Servers crash, regions disappear → build in redundancy\n9️⃣ You can't see what's breaking → add observability (logs, metrics, traces)\n\nAnd the biggest beginner mistake? Adding Kafka, Kubernetes, microservices and 10 databases before you have a real problem. Every component has a cost:\n• caches go stale\n• queues deliver twice\n• replicas lag\n• shards make queries harder\n• microservices fail over the network\n\nSo the real skill isn't memorizing tools. It's asking one question:\n\n👉 \"What problem forced us to add this?\"\n\nStart simple. Find the bottleneck. Add the smallest fix. Repeat.\n\n💾 Save this for your next system design interview\n\n💬 Which of the 9 steps did you learn the hard way? Tell me in the comments 👇\n\n#systemdesign #softwareengineering #backenddevelopment #codinginterview #learntocode",
+   "url": "https://www.instagram.com/reel/DdrHAI1MrFb/",
+   "duration": 155.5
+  },
+  "n_frames": 52,
+  "transcript": {
+   "lang": "en",
+   "duration": 155.5,
+   "text": "System Design 101. People hear words like load balancer, cash, queue, database, replica, CDN, sharding, and it sounds like a giant collection of random infrastructure terms. But system design is really just this. You start with a product requirement, then figure out how to make it work reliably when the number of users gets huge. Let's build the mental model from scratch. Imagine a simple social app. A user opens it, loads their feed, likes a post, uploads a photo, sends a message. At first, you run everything on one server, one back end, one database, one machine. For a thousand users, that's completely fine. Then traffic grows, one server can't handle everything. So you scale horizontally. Instead of one back end server, you run several. But now users need somewhere to enter the system. That's the load balancer. It receives traffic and distributes requests across the healthy servers. But all those servers hit the same database and it becomes the bottleneck. So you reduce unnecessary reads at a cash like Redis. If the same profile gets requested 10,000 times, serve it for memory instead of querying the database every time. Reads keep growing. So you add read replicas. The primary handles rights replicas handle reads. Eventually even one database cluster isn't enough. So you partition the data, users in one range go to one database, others go elsewhere. That's sharding. Now files. You don't want profile pictures and videos inside your relational database. Put them in object storage like set three or R2. Then use a CDN to cache those files closer to users around the world. Now, someone uploads a video. Should the user wait while the back end processes thumbnails, notifications, analytics, and transcoding? No. So you introduce a queue. The request finishes quickly. And background workers process the slow jobs asynchronously. Next problem. What happens when one service crashes? One database goes down. One region disappears. This is where redundancy matters. Multiple servers replicated data, health checks, retries, failover. The system should expect parts to break. The goal isn't nothing ever fails. Its failure in one part doesn't destroy everything. Now add observability. Logs tell you what happened. Metrics tell you how the system is behaving. Tracing tells you how one request moved across services. Without those debugging a distributed system is a nightmare. And here's where beginners make a mistake. They think system design means adding as much infrastructure as possible. Microservices, Kafka, Kubernetes, 10 databases. That's not good system design. Every component adds complexity. A cache can go stale. A queue can deliver twice. Replicas can lag. Sharding makes queries harder. Microservices introduce network failures. So you only add complexity when it solves a real bottleneck. That's the core of system design. Start simple, find the bottleneck. Introduce the smallest component that solves it. Repeat as the system grows. So when you hear load balancer, cache, queue, CDN, replicas, shard, don't memorize them as random technologies. Ask one question. What problem appeared that forced us to add this component? That system design 101.",
+   "segments": [
+    {
+     "start": 0.0,
+     "end": 2.0,
+     "text": "System Design 101."
+    },
+    {
+     "start": 2.0,
+     "end": 4.0,
+     "text": "People hear words like load balancer, cash,"
+    },
+    {
+     "start": 4.0,
+     "end": 6.3,
+     "text": "queue, database, replica, CDN, sharding,"
+    },
+    {
+     "start": 6.3,
+     "end": 7.5,
+     "text": "and it sounds like a giant collection"
+    },
+    {
+     "start": 7.5,
+     "end": 9.3,
+     "text": "of random infrastructure terms."
+    },
+    {
+     "start": 9.3,
+     "end": 11.1,
+     "text": "But system design is really just this."
+    },
+    {
+     "start": 11.1,
+     "end": 12.5,
+     "text": "You start with a product requirement,"
+    },
+    {
+     "start": 12.5,
+     "end": 14.2,
+     "text": "then figure out how to make it work reliably"
+    },
+    {
+     "start": 14.2,
+     "end": 15.7,
+     "text": "when the number of users gets huge."
+    },
+    {
+     "start": 15.7,
+     "end": 17.6,
+     "text": "Let's build the mental model from scratch."
+    },
+    {
+     "start": 17.6,
+     "end": 19.1,
+     "text": "Imagine a simple social app."
+    },
+    {
+     "start": 19.1,
+     "end": 20.9,
+     "text": "A user opens it, loads their feed,"
+    },
+    {
+     "start": 20.9,
+     "end": 23.2,
+     "text": "likes a post, uploads a photo, sends a message."
+    },
+    {
+     "start": 23.2,
+     "end": 25.3,
+     "text": "At first, you run everything on one server,"
+    },
+    {
+     "start": 25.3,
+     "end": 27.5,
+     "text": "one back end, one database, one machine."
+    },
+    {
+     "start": 27.5,
+     "end": 29.5,
+     "text": "For a thousand users, that's completely fine."
+    },
+    {
+     "start": 29.5,
+     "end": 32.1,
+     "text": "Then traffic grows, one server can't handle everything."
+    },
+    {
+     "start": 32.1,
+     "end": 33.6,
+     "text": "So you scale horizontally."
+    },
+    {
+     "start": 33.6,
+     "end": 35.9,
+     "text": "Instead of one back end server, you run several."
+    },
+    {
+     "start": 35.9,
+     "end": 37.8,
+     "text": "But now users need somewhere to enter the system."
+    },
+    {
+     "start": 37.8,
+     "end": 39.1,
+     "text": "That's the load balancer."
+    },
+    {
+     "start": 39.1,
+     "end": 40.9,
+     "text": "It receives traffic and distributes requests"
+    },
+    {
+     "start": 40.9,
+     "end": 42.1,
+     "text": "across the healthy servers."
+    },
+    {
+     "start": 42.1,
+     "end": 43.9,
+     "text": "But all those servers hit the same database"
+    },
+    {
+     "start": 43.9,
+     "end": 45.2,
+     "text": "and it becomes the bottleneck."
+    },
+    {
+     "start": 45.2,
+     "end": 48.6,
+     "text": "So you reduce unnecessary reads at a cash like Redis."
+    },
+    {
+     "start": 48.6,
+     "end": 51.0,
+     "text": "If the same profile gets requested 10,000 times,"
+    },
+    {
+     "start": 51.0,
+     "end": 53.2,
+     "text": "serve it for memory instead of querying the database"
+    },
+    {
+     "start": 53.2,
+     "end": 54.0,
+     "text": "every time."
+    },
+    {
+     "start": 54.0,
+     "end": 55.1,
+     "text": "Reads keep growing."
+    },
+    {
+     "start": 55.1,
+     "end": 56.5,
+     "text": "So you add read replicas."
+    },
+    {
+     "start": 56.5,
+     "end": 59.3,
+     "text": "The primary handles rights replicas handle reads."
+    },
+    {
+     "start": 59.3,
+     "end": 61.9,
+     "text": "Eventually even one database cluster isn't enough."
+    },
+    {
+     "start": 61.9,
+     "end": 64.0,
+     "text": "So you partition the data, users in one range"
+    },
+    {
+     "start": 64.0,
+     "end": 66.1,
+     "text": "go to one database, others go elsewhere."
+    },
+    {
+     "start": 66.1,
+     "end": 67.0,
+     "text": "That's sharding."
+    },
+    {
+     "start": 67.0,
+     "end": 67.9,
+     "text": "Now files."
+    },
+    {
+     "start": 67.9,
+     "end": 69.6,
+     "text": "You don't want profile pictures and videos"
+    },
+    {
+     "start": 69.6,
+     "end": 71.2,
+     "text": "inside your relational database."
+    },
+    {
+     "start": 71.2,
+     "end": 74.2,
+     "text": "Put them in object storage like set three or R2."
+    },
+    {
+     "start": 74.2,
+     "end": 76.1,
+     "text": "Then use a CDN to cache those files"
+    },
+    {
+     "start": 76.1,
+     "end": 77.8,
+     "text": "closer to users around the world."
+    },
+    {
+     "start": 77.8,
+     "end": 79.4,
+     "text": "Now, someone uploads a video."
+    },
+    {
+     "start": 79.4,
+     "end": 81.4,
+     "text": "Should the user wait while the back end processes"
+    },
+    {
+     "start": 81.4,
+     "end": 84.0,
+     "text": "thumbnails, notifications, analytics, and transcoding?"
+    },
+    {
+     "start": 84.0,
+     "end": 84.6,
+     "text": "No."
+    },
+    {
+     "start": 84.6,
+     "end": 86.0,
+     "text": "So you introduce a queue."
+    },
+    {
+     "start": 86.0,
+     "end": 87.1,
+     "text": "The request finishes quickly."
+    },
+    {
+     "start": 87.1,
+     "end": 89.0,
+     "text": "And background workers process the slow jobs"
+    },
+    {
+     "start": 89.0,
+     "end": 89.8,
+     "text": "asynchronously."
+    },
+    {
+     "start": 89.8,
+     "end": 90.5,
+     "text": "Next problem."
+    },
+    {
+     "start": 90.5,
+     "end": 92.5,
+     "text": "What happens when one service crashes?"
+    },
+    {
+     "start": 92.5,
+     "end": 93.8,
+     "text": "One database goes down."
+    },
+    {
+     "start": 93.8,
+     "end": 95.2,
+     "text": "One region disappears."
+    },
+    {
+     "start": 95.2,
+     "end": 96.8,
+     "text": "This is where redundancy matters."
+    },
+    {
+     "start": 96.8,
+     "end": 99.0,
+     "text": "Multiple servers replicated data, health checks,"
+    },
+    {
+     "start": 99.0,
+     "end": 100.4,
+     "text": "retries, failover."
+    },
+    {
+     "start": 100.4,
+     "end": 102.3,
+     "text": "The system should expect parts to break."
+    },
+    {
+     "start": 102.3,
+     "end": 103.8,
+     "text": "The goal isn't nothing ever fails."
+    },
+    {
+     "start": 103.8,
+     "end": 106.2,
+     "text": "Its failure in one part doesn't destroy everything."
+    },
+    {
+     "start": 106.2,
+     "end": 107.7,
+     "text": "Now add observability."
+    },
+    {
+     "start": 107.7,
+     "end": 108.9,
+     "text": "Logs tell you what happened."
+    },
+    {
+     "start": 108.9,
+     "end": 110.9,
+     "text": "Metrics tell you how the system is behaving."
+    },
+    {
+     "start": 110.9,
+     "end": 113.8,
+     "text": "Tracing tells you how one request moved across services."
+    },
+    {
+     "start": 113.8,
+     "end": 115.8,
+     "text": "Without those debugging a distributed system"
+    },
+    {
+     "start": 115.8,
+     "end": 116.6,
+     "text": "is a nightmare."
+    },
+    {
+     "start": 116.6,
+     "end": 118.3,
+     "text": "And here's where beginners make a mistake."
+    },
+    {
+     "start": 118.3,
+     "end": 119.9,
+     "text": "They think system design means adding"
+    },
+    {
+     "start": 119.9,
+     "end": 121.4,
+     "text": "as much infrastructure as possible."
+    },
+    {
+     "start": 121.4,
+     "end": 124.5,
+     "text": "Microservices, Kafka, Kubernetes, 10 databases."
+    },
+    {
+     "start": 124.5,
+     "end": 126.0,
+     "text": "That's not good system design."
+    },
+    {
+     "start": 126.0,
+     "end": 128.0,
+     "text": "Every component adds complexity."
+    },
+    {
+     "start": 128.0,
+     "end": 129.4,
+     "text": "A cache can go stale."
+    },
+    {
+     "start": 129.4,
+     "end": 130.8,
+     "text": "A queue can deliver twice."
+    },
+    {
+     "start": 130.8,
+     "end": 132.0,
+     "text": "Replicas can lag."
+    },
+    {
+     "start": 132.0,
+     "end": 133.5,
+     "text": "Sharding makes queries harder."
+    },
+    {
+     "start": 133.5,
+     "end": 135.7,
+     "text": "Microservices introduce network failures."
+    },
+    {
+     "start": 135.7,
+     "end": 137.6,
+     "text": "So you only add complexity when it solves"
+    },
+    {
+     "start": 137.6,
+     "end": 138.4,
+     "text": "a real bottleneck."
+    },
+    {
+     "start": 138.4,
+     "end": 140.0,
+     "text": "That's the core of system design."
+    },
+    {
+     "start": 140.0,
+     "end": 142.0,
+     "text": "Start simple, find the bottleneck."
+    },
+    {
+     "start": 142.0,
+     "end": 144.0,
+     "text": "Introduce the smallest component that solves it."
+    },
+    {
+     "start": 144.0,
+     "end": 145.3,
+     "text": "Repeat as the system grows."
+    },
+    {
+     "start": 145.3,
+     "end": 147.6,
+     "text": "So when you hear load balancer, cache, queue, CDN,"
+    },
+    {
+     "start": 147.6,
+     "end": 149.3,
+     "text": "replicas, shard, don't memorize them"
+    },
+    {
+     "start": 149.3,
+     "end": 150.5,
+     "text": "as random technologies."
+    },
+    {
+     "start": 150.5,
+     "end": 151.5,
+     "text": "Ask one question."
+    },
+    {
+     "start": 151.5,
+     "end": 153.8,
+     "text": "What problem appeared that forced us to add this component?"
+    },
+    {
+     "start": 153.8,
+     "end": 155.3,
+     "text": "That system design 101."
+    }
+   ]
+  },
+  "analysis": "### 1) О чём\n\n- Это учебный ролик **«System Design 101»** для начинающих backend-разработчиков и подготовки к system design interview.\n- На примере простого social app — лента, лайки, фотографии и сообщения — автор показывает, как система развивается от **одного сервера и одной базы**.\n- Каждый компонент появляется только из-за конкретной проблемы: нехватка CPU, перегрузка базы, долгие запросы, большой объём файлов, медленные загрузки, отказы и невозможность диагностики.\n- Последовательность: один сервер → масштабирование и load balancer → cache → read replicas → sharding → object storage → CDN → queue и workers → redundancy → observability.\n- Главный вывод: **не запоминать инструменты, а спрашивать: “What problem forced us to add this?”** Метод: `Start simple → Find the bottleneck → Smallest fix → Repeat`.\n\n### 2) Визуальный стиль\n\n- **Кадр и композиция:** вертикальный формат 9:16, 720×1280. Светло-серый фон с технической сеткой. Слева почти всегда находится рисованный персонаж с голубыми волосами и чёрным худи; справа или по центру — схемы, карточки и blueprint. Сверху закреплена навигационная шапка, снизу — плашка с текущей фразой речи.\n- **Текст и плашки:** практически весь текст на экране английский, в верхнем регистре. Есть вкладки `LB`, `CACHE`, `REPLICAS`, `SHARDS`, `STORAGE`, `CDN`, `QUEUE`, `REDUNDANCY`, `OBSERVABILITY`, счётчик пользователей, версии схемы `V0–V9`, карточки `PROBLEM`, `GOAL`, `FIX`, `RULE`.\n- **Цвет:** белые карточки с мягкими тенями; тёмно-серый текст; фиолетовый и синий для активных элементов и потоков; красный/розовый для проблем; зелёный для успешных состояний; жёлтый для выделения слов в субтитрах.\n- **Шрифт:** жирный геометрический sans-serif для заголовков, компактный технический шрифт для подписей, интерфейсных меток и чисел. Крупные числа и названия компонентов служат визуальными акцентами.\n- **Монтаж:** последовательная смена инфографических слайдов; элементы появляются, подсвечиваются и переключаются. Стрелки, синие точки запросов, цветные потоки и графики показывают движение данных. Реальной съёмки нет — только motion graphics, схемы, макеты телефона и диаграммы.\n- **Субтитры:** внизу находится белая скруглённая плашка с коротким фрагментом английской речи. Текущее слово или часть фразы подсвечиваются жёлтым; это работает как karaoke-сабтитры, а не как обычные длинные реплики.\n\n### 3) Хук\n\n- В первом кадре сразу показан уже собранный полный blueprint системы, включая серверы, базу, cache, queue, CDN и observability.\n- Затем термины намеренно превращаются в визуальный хаос: `LOAD BALANCER`, `CACHE`, `KAFKA`, `KUBERNETES`, `MICROSERVICES`, `SHARDING` и десятки других названий.\n- Этот контраст цепляет новичка: сначала кажется, что system design — это набор сложных buzzwords, а затем ролик обещает свести его к простой последовательности «проблема → минимальное исправление».\n\n### 4) CTA и финал\n\n- Финальный кадр снова показывает полную архитектуру `V9` и крупный заголовок **SYSTEM DESIGN 101**.\n- Итоговая плашка: **“That’s system design 101.”**\n- Отдельного CTA на последнем кадре нет. В описании ролика есть призывы:\n  - **“Save this for your next system design interview”**\n  - **“Which of the 9 steps did you learn the hard way? Tell me in the comments”**\n\n### 5) Формат и длительность\n\n- Вертикальный образовательный Reel в формате **9:16**.\n- Длительность: **155,5 секунды**, около **2:36**.\n- В подборке **52 опорных кадра**, примерно каждые 3 секунды.\n- Англоязычная озвучка сопровождается короткими субтитрами и последовательной анимацией схем.\n\n## Кадры 1–52 по порядку\n\nПовторяющиеся сетка, шапка, персонаж слева и нижняя плашка показаны в каждом кадре; ниже указаны основные изменения и текст плашки.\n\n### Вступление\n\n- **1.** Открывающий обзор: blueprint `V9` уже показывает целевую архитектуру social app — users, CDN, load balancer, серверы, storage, cache, queue, workers, шарды, реплики и observability. Ниже крупно: `SYSTEM DESIGN 101`. Плашка: **«System design 101.»**\n- **2.** Появляется блок `PEOPLE HEAR...` и четыре парящие карточки: `LOAD BALANCER`, `CACHE`, `QUEUE`, `DATABASE REPLICA`. Плашка: **«queue, database replica,»**\n- **3.** Словарь buzzwords уплотняется: `KAFKA`, `KUBERNETES`, `MICROSERVICES`, `DOCKER`, `PROMETHEUS`, `S3`, `NGINX`, `GRAFANA`, `DYNAMODB`, `CONSISTENT HASHING`, `SHARDING`, `MONGODB`, `RABBITMQ`, `LAMBDA`. Плашка: **«a giant collection of»**\n- **4.** Появляется mental model: правило `It’s really just three things` и три карточки — product requirement, reliable operation, рост числа пользователей. В третьей карточке виден счётчик `1 USERS`. Плашка: **«really just this.»**\n- **5.** Первая карточка mental model подсвечена фиолетовым: `START WITH A PRODUCT REQUIREMENT`. Плашка: **«to make it work»**\n- **6.** Слева появляется цель `Build it from scratch`, справа — пустая страница `BLUEPRINT · SOCIAL APP V0` с плашкой `BLANK PAGE`. Плашка: **«Let's build the mental»**\n\n### Один сервер\n\n- **7.** Раздел `01 ONE SERVER`. Слева цель `A simple social app`, в центре макет телефона с пустым экраном `circle`, справа список запросов: `GET /home`, `GET /feed`, `POST /likes`, `POST /photos`, `POST /messages`. Плашка: **«A user opens it,»**\n- **8.** На телефоне появляется лента с фотографией моря, профилем `maya.k` и прогрессом `Uploading photo`; четыре запроса подсвечены синим. Плашка: **«photo, sends a message.»**\n- **9.** Blueprint `V1`: пользователи связаны с одной машиной, внутри которой находятся `BACKEND — your code` и `DATABASE — your data`. Плашка: **«One backend, one database,»**\n- **10.** На схеме появляется `1,000 USERS`; все компоненты по-прежнему имеют метку `×1`. Плашка: **«For a thousand users,»**\n- **11.** Счётчик вырастает до `250K users`. Карточка проблемы: `One server can’t keep up`; блок сервера красный, появляется `CPU 100%`. Плашка: **«server can’t handle»**\n\n### Масштабирование и load balancer\n\n- **12.** Раздел `02 SCALE OUT`. Проблема снимается двумя серверами рядом, оба подключены к одной базе `primary · writes`. Плашка: **«Instead of one back-end»**\n- **13.** Серверов становится четыре, но перед ними по-прежнему нет единой точки входа; красная плашка спрашивает `WHICH SERVER?`. Плашка: **«system.»**\n- **14.** Добавляется `LOAD BALANCER — NGINX · ELB` с меткой `ROUND ROBIN`; запросы распределяются по четырём серверам. Плашка: **«distributes requests»**\n\n### База, cache и реплики\n\n- **15.** Раздел `03 THE DATABASE`, счётчик `1M users`. Красная плашка: `Every server hits one database`; трафик с серверов сходится в одну базу. Плашка: **«hit the same database»**\n- **16.** На схеме появляется предупреждение `SAME READS, AGAIN`; повторяющиеся чтения продолжают давить на database. Плашка: **«So you reduce unnecessary»**\n- **17.** Активирована вкладка `CACHE`. Пример профиля `maya.k` запрашивается `10,000×`; сравниваются `CACHE — Redis · in memory — 9,999 HITS` и `DATABASE — query on disk — 1 QUERY`. Плашка: **«gets requested 10,000»**\n- **18.** Появляется сетка из 100 квадратов, один запрос к базе и множество cache hits; вверху `10,000 REQUESTS`, внизу `9,999 HITS` и `1 QUERY`. Плашка: **«instead of querying the»**\n- **19.** При `5M users` появляется проблема `Reads keep growing`; рядом с базой показан cache `Redis · memory` и стрелка `READS ↑`. Плашка: **«you add read replicas.»**\n- **20.** Правило `Writes: primary. Reads: replicas.`; в схеме появляются primary database и две реплики, отмеченные для чтения. Плашка: **«writes, replicas handle»**\n- **21.** При `20M users` база достигает предела: красная плашка `One cluster can’t hold it all`, метка `DISK 97% · 4 TB`. Плашка: **«enough.»**\n\n### Файлы, шардирование и CDN\n\n- **22.** Раздел `04 FILES`. Показан разрез таблицы `USERS — 20M ROWS` и деление по диапазону: `SHARD 1 — users A–M` с именами Ana, Ben, Chloe, Dev, Maya и `SHARD 2 — users N–Z`. Плашка: **«database, others go»**\n- **23.** Красная проблема: `Files bloat the database`. Сверхху маленький `USER ROW — 1 KB`, ниже большая `RELATIONAL DATABASE — 12 GB`. Плашка: **«Now files. You don't»**\n- **24.** В схему добавляются `PHOTO — 4 MB` и `VIDEO — 480 MB`; база вырастает до `3.8 TB`, появляется красная плашка `BLOBS DON'T BELONG HERE`. Плашка: **«relational database.»**\n- **25.** Добавляется `STORAGE — S3 · R2`; видны метки `AMAZON S3` и `CLOUDFLARE R2`, а также выноска `DB keeps: s3://avatars/maya.jpg`. Плашка: **«R2.»**\n- **26.** Активирована вкладка `CDN`. Карта показывает edge-узлы по миру, `ORIGIN — VIRGINIA` и `TOKYO`; сравниваются 180 ms до origin и 12 ms до ближайшего edge. Плашка: **«closer to users around»**\n\n### Медленные jobs, queue и workers\n\n- **27.** Раздел `05 SLOW WORK`, счётчик `50M users`. На экране телефон с загрузкой `trip.mp4 — 480 MB`, а справа — thumbnails, notifications, analytics и transcoding с суммарным ожиданием `14.2 S`. Плашка: **«Should the user wait»**\n- **28.** Красная плашка `The user sits and waits`; прогресс на телефоне достигает `13.2 s`, thumbnails и notifications подсвечены как задерживающие операции. Плашка: **«notifications, analytics,»**\n- **29.** Добавляется `QUEUE — jobs wait here`: операции отделяются от пользовательского запроса и ожидают фоновой обработки. Плашка: **«a queue,»**\n- **30.** Появляется `WORKERS — slow jobs`; queue передаёт им задачи `THUMBNAILS · TRANSCODE`, а пользователь получает быстрый ответ `200 OK · 120 MS`. Плашка: **«workers process the slow»**\n\n### Отказоустойчивость\n\n- **31.** Раздел `06 FAILURE`. Красная плашка спрашивает: `What if something crashes?`; полная архитектура показана без нового компонента. Плашка: **«when one service crashes?»**\n- **32.** Карта `FOUR REGIONS, ONE APP` показывает `us-west-2`, `eu-central-1`, `ap-northeast-1` и красный `X` у `us-east-1`. Status card: database `DOWN`, servers `UNREACHABLE`, region `OFFLINE`. Плашка: **«one region disappears.»**\n- **33.** Раздел redundancy показывает `MULTIPLE SERVERS`, `REPLICATED DATA`, `HEALTH CHECKS`, `RETRIES` и `FAILOVER`. Плашка: **«Multiple servers,»**\n- **34.** Крупный слоган `EXPECT PARTS TO BREAK.` и три карточки серверов; правило `Assume parts will break`. Плашка: **«The system should expect»**\n- **35.** Цель сформулирована как локализация отказа: не `NOTHING EVER FAILS`, а `FAILURE STAYS CONTAINED`. Ниже 12 зелёных отсеков приложения, все с меткой `12 / 12 UP`. Плашка: **«ever fails. It’s failure»**\n\n### Observability\n\n- **36.** Раздел `07 OBSERVABILITY`; к уже собранной архитектуре добавляется наблюдаемость. Плашка: **«Now add observability.»**\n- **37.** Три панели: `LOGS` с записями запросов и ошибкой `POST /photos 500 · s3 timeout 3000 ms`, `METRICS` с графиком p99 latency и пустая `TRACES`. Плашка: **«Metrics tell you how»**\n- **38.** Заполняется traces: показаны пути `load balancer`, `api server`, `cache · Redis`, `database`, `storage · S3`, `queue` с временами 4, 150, 2, 38, 88 и 3 ms; график показывает пик `p99 840 ms`. Плашка: **«one request moved across»**\n- **39.** Красная проблема `Blind debugging`; логи, метрики и traces превращаются в три больших знака вопроса. Плашка: **«distributed system is a»**\n\n### Ошибка overengineering и метод\n\n- **40.** Раздел `08 THE MISTAKE`, красная плашка `More isn’t better`; сверху минимальная строка `COMPONENTS` с числом `6` и тремя иконками. Плашка: **«They think system design»**\n- **41.** Показаны четыре типовых избыточных решения: `MICROSERVICES`, `KAFKA`, `KUBERNETES`, `10 DATABASES`. Их описания: `a service per verb`, `event streaming`, `container orchestration`, `one for every feature`. Плашка: **«Microservices, Kafka,»**\n- **42.** Те же четыре карточки становятся цветными и хорошо заметными. Плашка: **«That’s not good system»**\n- **43.** Плашка `Every part adds complexity`; список из observability, redundancy, queue, CDN, storage, shards, replicas, cache и load balancer получает `+1` у каждого элемента, рядом — шкала `COMPLEXITY ×9`. Плашка: **«complexity.»**\n- **44.** Три риска: `CACHE CAN GO STALE`, `QUEUE CAN DELIVER TWICE`, `REPLICAS CAN LAG`. Показаны несовпадение cache и database, две копии welcome email и отставание primary на два лайка. Плашка: **«deliver twice, replicas»**\n- **45.** Два следующих риска: `SHARDING — QUERIES GET HARDER` и `MICROSERVICES — NETWORK FAILURES`; показаны merge двух шардов и `504 TIMEOUT`. Плашка: **«harder. Microservices»**\n- **46.** Раздел `09 THE METHOD`. Крупный тезис: `ONLY ADD COMPLEXITY WHEN IT SOLVES A REAL BOTTLENECK.` Ниже красный отказ `because it’s popular` и зелёный вариант `because something broke`. Плашка: **«complexity when it solves»**\n- **47.** Схема `THE CORE OF SYSTEM DESIGN` показывает цикл из четырёх шагов: `START SIMPLE`, `FIND THE BOTTLENECK`, `SMALLEST FIX`, `REPEAT`. Плашка: **«system design.»**\n- **48.** Первые три шага подсвечены фиолетовым, `REPEAT` пока приглушён; внизу появляется строка `LAPS IN THIS VIDEO` с номерами 1–9. Плашка: **«smallest component that»**\n- **49.** Правило `Start simple. Fix the bottleneck. Repeat.`; список компонентов временно приглушён. Плашка: **«So when you hear»**\n- **50.** Список снова становится цветным под заголовком `WHEN YOU HEAR...`: `LOAD BALANCER`, `CACHE`, `QUEUE`, `CDN`, `REPLICA`, `SHARD`. Плашка: **«shard,»**\n- **51.** Главный вопрос: `WHAT PROBLEM FORCED US TO ADD THIS?` Слева шесть полей `WHY WAS IT ADDED?`, справа те же шесть компонентов. Плашка: **«Ask one question: what»**\n- **52.** Финальный возврат к полной архитектуре `V9` и крупному标题 `SYSTEM DESIGN 101`. Плашка: **«That’s system design 101.»**"
+ },
+ "DdnFMqVFCTj": {
+  "meta": {
+   "author": "lorens.ghiraldo",
+   "likes": 75756,
+   "comments": 2411,
+   "desc": "https://whop.com/ai-agent-academy-8afb?a=lowkey56\n\nAI Agent Ecosystem Tour 2 — Part 1\n\nhttps://github.com/androoAGI/starnet",
+   "url": "https://www.instagram.com/reel/DdnFMqVFCTj/",
+   "duration": 130.1
+  },
+  "n_frames": 43,
+  "transcript": {
+   "lang": "en",
+   "duration": 130.1,
+   "text": "This game, it controls my entire existence. Check this out. I have these agents, AI agents. I place them inside of the simulation. They now live in this space dungeon for eternity until they have generated me a minimum of a trillion dollars. And of course, in the center of the station, we have Ultron. Ultron over here is, he's a Hermes agent. So he runs on GPT 5.5. His entire purpose of his existence is to make sure the other slave minions are constantly getting worked on in their designated areas. That's his entire purpose. And to jump into the businesses that these agents from, we'll come over here to the factory room. In this room here, I had them start three Etsy stores. So the first Etsy store we started two months ago, they have made basically $11,000 running this Etsy store for the past two months. All they do is make designs using GPT images too. They put them on print on demand product templates. And then middle-aged women just eat this shit up and buy it every fucking day. And they have made across all three Etsy stores, here they sell candles, here they sell personalized bullshit products. We made $16,000 fucking dollars selling garbage nonsense on fucking Etsy, it's assing on, bro. It's fucking sickening. And then I was like, fuck it, that's not enough. So I had them start a second factory room. In the second factory room here, they're running their own fiber service. So essentially, the people paying us here, they're paying us $20 to generate them YouTube thumbnails, that they could have generated for free. But they don't know this. So we're just charging them and just taking their fucking money. We have made $3,400 doing this. And then of course, we have them selling game assets on different marketplaces. They just make 2D game assets and sell them. We have them writing blogs and shilling products to make an affiliate commission off of. I have them building software prototypes. I have them making fucking music.",
+   "segments": [
+    {
+     "start": 0.0,
+     "end": 3.4,
+     "text": "This game, it controls my entire existence."
+    },
+    {
+     "start": 3.4,
+     "end": 4.3,
+     "text": "Check this out."
+    },
+    {
+     "start": 4.3,
+     "end": 6.2,
+     "text": "I have these agents, AI agents."
+    },
+    {
+     "start": 6.2,
+     "end": 9.2,
+     "text": "I place them inside of the simulation."
+    },
+    {
+     "start": 9.2,
+     "end": 13.6,
+     "text": "They now live in this space dungeon for eternity"
+    },
+    {
+     "start": 13.6,
+     "end": 18.5,
+     "text": "until they have generated me a minimum of a trillion dollars."
+    },
+    {
+     "start": 18.5,
+     "end": 21.7,
+     "text": "And of course, in the center of the station,"
+    },
+    {
+     "start": 21.7,
+     "end": 22.5,
+     "text": "we have Ultron."
+    },
+    {
+     "start": 22.5,
+     "end": 26.2,
+     "text": "Ultron over here is, he's a Hermes agent."
+    },
+    {
+     "start": 26.2,
+     "end": 29.0,
+     "text": "So he runs on GPT 5.5."
+    },
+    {
+     "start": 29.0,
+     "end": 31.5,
+     "text": "His entire purpose of his existence"
+    },
+    {
+     "start": 31.5,
+     "end": 34.1,
+     "text": "is to make sure the other slave minions"
+    },
+    {
+     "start": 34.1,
+     "end": 36.8,
+     "text": "are constantly getting worked on in their designated areas."
+    },
+    {
+     "start": 36.8,
+     "end": 38.3,
+     "text": "That's his entire purpose."
+    },
+    {
+     "start": 38.3,
+     "end": 40.9,
+     "text": "And to jump into the businesses that these agents from,"
+    },
+    {
+     "start": 40.9,
+     "end": 42.9,
+     "text": "we'll come over here to the factory room."
+    },
+    {
+     "start": 42.9,
+     "end": 47.3,
+     "text": "In this room here, I had them start three Etsy stores."
+    },
+    {
+     "start": 47.3,
+     "end": 49.6,
+     "text": "So the first Etsy store we started two months ago,"
+    },
+    {
+     "start": 49.6,
+     "end": 55.9,
+     "text": "they have made basically $11,000 running this Etsy store"
+    },
+    {
+     "start": 55.9,
+     "end": 57.1,
+     "text": "for the past two months."
+    },
+    {
+     "start": 57.1,
+     "end": 61.1,
+     "text": "All they do is make designs using GPT images too."
+    },
+    {
+     "start": 61.1,
+     "end": 63.8,
+     "text": "They put them on print on demand product templates."
+    },
+    {
+     "start": 63.8,
+     "end": 66.1,
+     "text": "And then middle-aged women just eat this shit up"
+    },
+    {
+     "start": 66.1,
+     "end": 68.3,
+     "text": "and buy it every fucking day."
+    },
+    {
+     "start": 68.3,
+     "end": 71.0,
+     "text": "And they have made across all three Etsy stores,"
+    },
+    {
+     "start": 71.0,
+     "end": 73.4,
+     "text": "here they sell candles, here they sell personalized"
+    },
+    {
+     "start": 73.4,
+     "end": 74.6,
+     "text": "bullshit products."
+    },
+    {
+     "start": 74.6,
+     "end": 79.6,
+     "text": "We made $16,000 fucking dollars selling garbage nonsense"
+    },
+    {
+     "start": 81.0,
+     "end": 83.0,
+     "text": "on fucking Etsy, it's assing on, bro."
+    },
+    {
+     "start": 83.0,
+     "end": 85.8,
+     "text": "It's fucking sickening."
+    },
+    {
+     "start": 85.8,
+     "end": 88.2,
+     "text": "And then I was like, fuck it, that's not enough."
+    },
+    {
+     "start": 88.2,
+     "end": 90.6,
+     "text": "So I had them start a second factory room."
+    },
+    {
+     "start": 90.6,
+     "end": 93.2,
+     "text": "In the second factory room here,"
+    },
+    {
+     "start": 93.2,
+     "end": 95.4,
+     "text": "they're running their own fiber service."
+    },
+    {
+     "start": 95.4,
+     "end": 98.3,
+     "text": "So essentially, the people paying us here,"
+    },
+    {
+     "start": 98.3,
+     "end": 103.1,
+     "text": "they're paying us $20 to generate them YouTube thumbnails,"
+    },
+    {
+     "start": 103.1,
+     "end": 106.2,
+     "text": "that they could have generated for free."
+    },
+    {
+     "start": 106.2,
+     "end": 107.2,
+     "text": "But they don't know this."
+    },
+    {
+     "start": 107.2,
+     "end": 109.4,
+     "text": "So we're just charging them and just taking their fucking money."
+    },
+    {
+     "start": 109.4,
+     "end": 113.1,
+     "text": "We have made $3,400 doing this."
+    },
+    {
+     "start": 113.1,
+     "end": 116.0,
+     "text": "And then of course, we have them selling game assets"
+    },
+    {
+     "start": 116.0,
+     "end": 117.2,
+     "text": "on different marketplaces."
+    },
+    {
+     "start": 117.2,
+     "end": 119.6,
+     "text": "They just make 2D game assets and sell them."
+    },
+    {
+     "start": 119.6,
+     "end": 123.8,
+     "text": "We have them writing blogs and shilling products"
+    },
+    {
+     "start": 123.8,
+     "end": 125.6,
+     "text": "to make an affiliate commission off of."
+    },
+    {
+     "start": 125.6,
+     "end": 127.9,
+     "text": "I have them building software prototypes."
+    },
+    {
+     "start": 127.9,
+     "end": 130.2,
+     "text": "I have them making fucking music."
+    }
+   ]
+  },
+  "analysis": "### 1. О чём рилс по существу\n\n- Автор показывает интерфейс sci-fi-симуляции, где AI-агенты работают внутри станции/космического подземелья и якобы бесконечно генерируют деньги.\n- По его словам, конечная цель — минимум **$1 трлн**.\n- В центре станции находится **Ultron** — Hermes-агент на GPT 5.5, который распределяет работу и следит за остальными агентами.\n- Первый производственный блок — **три Etsy-магазина**: агенты делают дизайны через GPT Images, публикуют товары с print-on-demand и продают свечи, персонализированные товары и другой merchandise. Автор заявляет около **$11 тыс. по первому магазину** и **$16 тыс. по всем трём**.\n- Второй блок — сервис генерации YouTube-превью: клиентам обещают результат за **$20**, хотя, по словам автора, покупатели не знают, что могут сделать его бесплатно. Заявленная выручка — около **$3,4 тыс.**\n- Другие агенты также делают игровые ассеты, блоги и affiliate-контент, прототипы ПО и музыку.\n- Суммы и результаты — заявления автора из транскрипта; сами кадры показывают интерфейс с цифрами, но не независимое подтверждение этих данных.\n\n### 2. Визуальный стиль\n\n- **Формат кадра:** вертикальный Reels 9:16.\n- **Съёмка:** камера снимает физический монитор с телефона, а не делает чистый screen capture: видны перспектива экрана, блики, расфокусировка, motion blur, комната и предметы на столе.\n- **Композиция:** монитор почти всегда занимает нижнюю или центральную часть кадра; камера то приближает отдельные комнаты, то отъезжает и показывает всю карту станции.\n- **Цвета:** чёрный фон интерфейса, яркий неоново-зелёный HUD, красные и фиолетовые комнаты; вокруг монитора — красно-малиновая стена и тёплый жёлтый свет из дверного проёма.\n- **Текст:** английский, заглавными буквами, моноширинный/пиксельный терминальный шрифт. Основные видимые заголовки: **ULTRON**, **ETSY PRODUCTION TERMINAL**, **AUTONOMOUS OUTPUT TERMINAL**, **ASSET PACK BUILDS**.\n- **Плашки:** отдельных редакторских плашек и lower-third нет. Рамки, списки, progress bars и зелёные таблицы — часть игрового интерфейса.\n- **Монтаж:** почти непрерывная демонстрация с панорамированием, зумами, переключением между картой и терминалами; резкие провалы фокуса и смазанные переходы усиливают ощущение «живой» системы.\n- **Субтитры:** на предоставленных кадрах отдельных субтитров со словами автора не видно.\n- **Реквизит:** перед монитором repeatedly появляется красный стик/указатель, похожий на джойстик; на столе также виден небольшой красно-зелёный кубик или игральная кость.\n\n### 3. Хук в первые секунды\n\n- Первая фраза транскрипта: **“This game, it controls my entire existence. Check this out.”**\n- Сразу после неё автор обещает показать агентов, которые живут в симуляции и работают до получения триллиона долларов.\n- Визуальный хук — не лицо автора, а загадочный неоновый интерфейс с картой космической станции, множеством комнат и красной подсветкой комнаты.\n- Дополнительно цепляет абсурдная формулировка: игра «контролирует существование», а мелкие цифровые агенты должны бесконечно зарабатывать триллион.\n\n### 4. Покадровый разбор\n\n#### Обзор станции и Ultron\n\n1. **Кадр 1:** общий план монитора в красной комнате. На экране зелёная карта с центральной сетью комнат, боковыми панелями и верхней строкой статуса. На переднем плане красный стик, за монитором виден тёплый дверной проём.\n\n2. **Кадр 2:** камера приближается к левой части интерфейса. Видны список комнат или модулей, верхние показатели и часть карты. Головка красного указателя находится внизу кадра.\n\n3. **Кадр 3:** нечёткий панорамный проход по карте. Зелёная рамка и цветные комнаты сохраняются, но мелкие подписи из-за движения не читаются.\n\n4. **Кадр 4:** крупный фрагмент карты. В верхней комнате виден яркий зелёный объект с человекообразной фигурой или знаком, ниже расположена индустриальная комната. Красный указатель направлен на мини-схему внизу справа.\n\n5. **Кадр 5:** камера отъезжает. Видна вся карта на мониторе, стол с красно-зелёным кубиком и красный стик. Справа вновь появляется тёплый дверной проём.\n\n6. **Кадр 6:** более далёкий и слегка размытый план. Верх кадра занимает красная стена и doorway, а monitor с зелёной картой расположен в нижней половине.\n\n7. **Кадр 7:** монитор снова показан почти целиком. Красный указатель находится у правого нижнего края экрана, вокруг карты видны зелёные status bars.\n\n8. **Кадр 8:** наезд на верхнюю центральную комнату. В её зелёном свечении заметна гуманоидная или роботизированная фигура; указатель подводит к ней.\n\n9. **Кадр 9:** обзор нескольких связанных комнат: зелёная, красная и коричневая зоны соединены линиями, внизу справа находится мини-карта.\n\n10. **Кадр 10:** интерфейс переключается на профиль агента. Крупно читается **ULTRON**, слева находится список комнат, в центре — технические параметры, справа — обрезанный зелёный wireframe-силуэт гуманоида.\n\n11. **Кадр 11:** тот же профиль показан шире. В центре видны строки параметров вроде **Station A1**, **Bridge Room** и описания функций агента; справа полностью помещён контурный рисунок humanoid-фигуры.\n\n12. **Кадр 12:** возврат к общей карте. Видны зелёная комната Ultron, красная центральная комната, коричневая комната справа и связи между ними.\n\n13. **Кадр 13:** карта смещена вправо. Появляются дополнительные сине-оранжевая, коричневые и розовая комнаты; мини-карта остаётся в правом нижнем углу.\n\n14. **Кадр 14:** крупный план правой индустриальной комнаты с несколькими машинами, механизмами и небольшими объектами. Сверху видна строка финансовых или системных показателей.\n\n15. **Кадр 15:** ещё более близкий вид той же комнаты. Внутри заметны зелёное устройство или транспорт, жёлтые элементы, небольшие фигуры и мелкие игровые подписи.\n\n#### Etsy production terminal\n\n16. **Кадр 16:** переход к терминалу **ETSY PRODUCTION TERMINAL**. В верхних блоках видны выручка около **$16 046,57**, уверенность **91%**, **3 Agents** и **9 Live**. Слева находится очередь этапов, по центру — окна генерации.\n\n17. **Кадр 17:** крупный план левой части терминала. Видна карточка **ETSY 1** примерно на **$10 915,27**, общая сумма по Etsy — **$16 046,57**. Ниже перечислены этапы вроде **Trend Scan**, **Design Draft**, **Mockup Build** и **Listing Draft**.\n\n18. **Кадр 18:** сильно смазанный переход или наклон камеры. Интерфейс почти не читается, остаются только зелёный край монитора и тёмный фон комнаты.\n\n19. **Кадр 19:** светлый, сильно размытый экран, похожий на веб-форму или отдельную страницу. В правой части виден красный указатель, текст определить нельзя.\n\n20. **Кадр 20:** возврат к Etsy-терминалу. В крупном плане — сетка из четырёх светлых preview-карточек с товарными дизайнами; сверху видны **3 Agents** и **9 Live**, указатель направлен на одну из карточек.\n\n21. **Кадр 21:** более широкий вид терминала. Слева — список этапов, по центру — четыре изображения, справа — панели статуса и работы агентов.\n\n22. **Кадр 22:** камера приближается к правой части сетки. Крупнее видны бледные artwork-превью, подписи вроде **Coffee and Cozy Design** и горизонтальные progress bars. Красный указатель перекрывает одну из карточек.\n\n23. **Кадр 23:** общий план Etsy-терминала с четырьмя изображениями, левой очередью этапов, верхними метриками и правой панелью live-workflows.\n\n24. **Кадр 24:** крупный верхне-правый фрагмент. Видны **3 Agents**, **9 Live**, карточка **ETSY 3 — Custom Portrait Products** примерно на **$532,47** и **16 orders**. Справа расположены полосы выполнения задач.\n\n25. **Кадр 25:** камера немного смещается вверх и вправо. Указатель направлен на верхние элементы управления, а внизу всё ещё видны четыре товарных preview-изображения и зелёные статусы.\n\n26. **Кадр 26:** камера уходит вниз. Верх кадра содержит лишь нижнюю часть терминала с фрагментами изображений, а основная часть — тёмный стол и основание монитора.\n\n27. **Кадр 27:** смазанный переход по зелёному интерфейсу. Различимы только панели и четыре светлых квадратных превью; надписи нечитаемы.\n\n28. **Кадр 28:** Etsy-терминал снова показан почти целиком. Слева — этапы производства, по центру — четыре дизайна, справа — статусы crew и workflow.\n\n#### Второй производственный блок и Output terminal\n\n29. **Кадр 29:** возврат к карте станции, теперь видна правая/нижняя часть с крупной серо-коричневой фабричной комнатой и жёлто-зелёной комнатой ниже.\n\n30. **Кадр 30:** панорамный проход по карте. Слева красная комната, сверху коричневая, снизу ярко розово-пурпурная комната с множеством светящихся соединений.\n\n31. **Кадр 31:** крупный план розовой комнаты. Внутри видны несколько параллельных производственных линий или конвейеров, оборудование по краям и розово-зелёная подсветка. Красный указатель заходит снизу.\n\n32. **Кадр 32:** переход к **AUTONOMOUS OUTPUT TERMINAL**. В верхних блоках видны выручка около **$3 533**, **Orders Today 34**, уверенность **91%** и **Active Workflows 15 Live**. Слева очередь, по центру — четыре ярких thumbnail-карточки.\n\n33. **Кадр 33:** светлый размытый переход. Видны вертикальные тёмные полосы и красный указатель, но содержание экрана прочитать невозможно.\n\n34. **Кадр 34:** крупный план четырёх ярких thumbnail-превью. На них заметны крупные слова вроде **STORM CABIN**, **MONEY LEAK**, **$1 DINNER** и **SUNDAY SECRET**; часть текста размыта движением камеры.\n\n35. **Кадр 35:** общий план Output terminal: слева очередь и этапы, по центру четыре thumbnail-карточки, справа несколько панелей live-workflow и статусов. Указатель стоит перед экраном.\n\n36. **Кадр 36:** ещё один смазанный панорамный проход. Видны зелёные панели, несколько миниатюр и правая колонка статусов, но новые детали неразборчивы.\n\n37. **Кадр 37:** крупный план верхней/левой части Output terminal. Читаются заголовок терминала, **Orders Today 34**, **91%** и список workflow-задач; указатель стоит на выбранной строке.\n\n38. **Кадр 38:** камера показывает выбранную задачу и соседние thumbnail-карточки. Красный указатель проходит по строке списка, текст вокруг частично размыт.\n\n39. **Кадр 39:** крупный план верхней части **AUTONOMOUS OUTPUT TERMINAL**. Видны финансовые счётчики, блок **THUMBMAIL STUDIO** и этапы **INTAKE**, **BUILD**, **MATCH**; также служебная метка или кнопка **BOOST**.\n\n40. **Кадр 40:** крупный план секции **ASSET PACK BUILDS**. В сетке показаны пиксельные игровые предметы: **Topic Tracker Board**, **Sentiment Dial**, **Heatmap Panel**, **Competitor Radar** и другие частично обрезанные ассеты.\n\n41. **Кадр 41:** более широкий вид того же terminal. Слева и по центру — сетка игровых ассетов, сверху — показатели и **15 Live**, справа — связанные crew-панели и статусы. Красный указатель лежит поверх экрана.\n\n42. **Кадр 42:** камера смещается вправо. Сетка ассетов остаётся слева, а справа появляются операционные, mission и feed-панели с зелёными индикаторами.\n\n43. **Кадр 43:** финальный широкий кадр интерфейса: asset pack builds, связанные агенты, mission control, daily objectives и standing orders. Красный указатель остаётся перед монитором; отдельной финальной заставки нет.\n\n### 5. CTA и финал\n\n- В самих кадрах нет финального приглашения **«подпишись», «напиши комментарий»** или **«ссылка в описании»**.\n- Представленный транскрипт также не содержит полноценного устного CTA: он заканчивается на перечислении дополнительных AI-задач, включая создание музыки.\n- Единственные внешние ссылки находятся в описании под видео:\n  - `whop.com/ai-agent-academy-8afb?a=lowkey56`\n  - `github.com/androoAGI/starnet`\n- Последний кадр не переходит на outro или логотип: он просто остаётся на игровом dashboard.\n\n### 6. Формат и длительность\n\n- Продолжительность: **130,1 секунды**, примерно **2 минуты 10 секунд**.\n- Ориентация: **вертикальный Reels 9:16**.\n- Предоставлено **43 кадра**, отобранных примерно каждые 3 секунды.\n- Основной формат — ** handheld-демонстрация интерфейса на физическом мониторе**, без talking-head и без отдельных субтитров.\n- В голосе — энергичная, хвастливая подача с матом и преувеличениями; визуально ролик выглядит как sci-fi/хакерская демонстрация работающей «фабрики» AI-агентов."
+ },
+ "DdlNfHyFOGM": {
+  "meta": {
+   "author": "isaacdyor",
+   "likes": 785,
+   "comments": 45,
+   "desc": "Better way to test Electron apps",
+   "url": "https://www.instagram.com/reel/DdlNfHyFOGM/",
+   "duration": 83.9
+  },
+  "n_frames": 28,
+  "transcript": {
+   "lang": "en",
+   "duration": 83.9,
+   "text": "If you're building an electron app, there's actually a better way to allow your agents to test their changes than computer use. Start each of your agents in its own get work tree and tell each one to start its own dev server with an explicit remote debugging port. And then tell each agent to attach for cells agent browser CLI to that port. This allows each of your agents to have full control over your desktop app without using computer use because it's connecting to the Chrome that runs inside of electron over CDP. And this is better for a couple reasons. First of all, the agent has full access to the DOM, so it has a lot more information, not just screenshots. It also gives your agent access to things that aren't visible, like console errors and network requests, which means that if your agent tests something and it fails, it's super easy for it to figure out why. And the final thing is that running multiple different agents that are all using computer use is super janky and they screw each other up. Versus with this approach, they're all explicitly connected to only one debugging port, so they can only control their own desktop app. One more thing that is cool about this is that computer use usually does not work across different operating systems. This means that if you're relying on macOS computer use, you wouldn't be able to do the same thing in the cloud. But if you're using the approach that I said of connecting over CDP, that works on any operating system. So you could spin up your agents on a VPS somewhere and it works the exact same way. It's been super helpful for me for building my own desktop app compound, so give it a shot.",
+   "segments": [
+    {
+     "start": 0.0,
+     "end": 5.5,
+     "text": "If you're building an electron app, there's actually a better way to allow your agents to test their changes than computer use."
+    },
+    {
+     "start": 5.5,
+     "end": 13.3,
+     "text": "Start each of your agents in its own get work tree and tell each one to start its own dev server with an explicit remote debugging port."
+    },
+    {
+     "start": 13.3,
+     "end": 18.0,
+     "text": "And then tell each agent to attach for cells agent browser CLI to that port."
+    },
+    {
+     "start": 18.0,
+     "end": 28.0,
+     "text": "This allows each of your agents to have full control over your desktop app without using computer use because it's connecting to the Chrome that runs inside of electron over CDP."
+    },
+    {
+     "start": 28.0,
+     "end": 35.0,
+     "text": "And this is better for a couple reasons. First of all, the agent has full access to the DOM, so it has a lot more information, not just screenshots."
+    },
+    {
+     "start": 35.0,
+     "end": 45.0,
+     "text": "It also gives your agent access to things that aren't visible, like console errors and network requests, which means that if your agent tests something and it fails, it's super easy for it to figure out why."
+    },
+    {
+     "start": 45.0,
+     "end": 51.0,
+     "text": "And the final thing is that running multiple different agents that are all using computer use is super janky and they screw each other up."
+    },
+    {
+     "start": 51.0,
+     "end": 58.0,
+     "text": "Versus with this approach, they're all explicitly connected to only one debugging port, so they can only control their own desktop app."
+    },
+    {
+     "start": 58.0,
+     "end": 64.0,
+     "text": "One more thing that is cool about this is that computer use usually does not work across different operating systems."
+    },
+    {
+     "start": 64.0,
+     "end": 69.0,
+     "text": "This means that if you're relying on macOS computer use, you wouldn't be able to do the same thing in the cloud."
+    },
+    {
+     "start": 69.0,
+     "end": 74.0,
+     "text": "But if you're using the approach that I said of connecting over CDP, that works on any operating system."
+    },
+    {
+     "start": 74.0,
+     "end": 79.0,
+     "text": "So you could spin up your agents on a VPS somewhere and it works the exact same way."
+    },
+    {
+     "start": 79.0,
+     "end": 84.0,
+     "text": "It's been super helpful for me for building my own desktop app compound, so give it a shot."
+    }
+   ]
+  },
+  "analysis": "### 1. О чём рилс\n\n- Это вертикальный техно-объяснятор для разработчиков Electron: как тестировать приложение несколькими ИИ-агентами без управления интерфейсом через `computer use`.\n- Предлагаемая схема: каждому агенту выделяется отдельный `git worktree`, запускается свой `dev server` с явным `--remote-debugging-port`, после чего `agent-browser` подключается к этому порту через CDP.\n- В ролике показаны преимущества такого подхода: доступ к DOM, чтение ошибок в консоли и сетевых запросов, изоляция нескольких агентов друг от друга, а также запуск на разных ОС и headless VPS.\n- Основная часть — анимированные схемы и UI-макеты, а не демонстрация реального прогона Electron-приложения.\n\n### 2. Кадры по порядку\n\n1. **Кадр 1.** Живая съёмка рабочего места в глубоком красном свете: большой монитор с несколькими окнами кода, открытый ноутбук на переднем плане и частичный экран слева. Вверху крупный заголовок `Run 10 billion Electron apps at the same time`. Внизу субтитр `there's actually a`.\n\n2. **Кадр 2.** Тот же красный setup, но содержимое большого монитора изменилось: видны редактор и отдельная синяя панель с коротким текстом. Заголовок сохраняется. Субтитр: `changes than`.\n\n3. **Кадр 3.** Переход к тёмной инфографике с едва заметной сеткой точек. В центре появляются три карточки `Agent 1`, `Agent 2`, `Agent 3`, отмеченные синим, фиолетовым и оранжевым точками. Субтитр: `its own Git`.\n\n4. **Кадр 4.** Схема расширяется в три вертикальные колонки. Под агентами появляются папки `agent-1/`, `agent-2/`, `agent-3/` с подписью `git worktree`; ниже — окна `Your app` и статус `dev server`. Субтитр: `dev server with`.\n\n5. **Кадр 5.** Под каждым приложением появляются отдельные порты `:9222`, `:9223`, `:9224`. Под ними указано `--remote-debugging-port`. Субтитр: `And then tell`.\n\n6. **Кадр 6.** Верхний заголовок в этом кадре уже не виден. Схема с агентами, worktree, приложениями и портами остаётся; снизу появляется терминальная плашка с командой `$ agent-browser --cdp 9222`. Субтитр: `browser CLI to`.\n\n7. **Кадр 7.** Камера переходит на крупный talking-head: автор в светлой одежде говорит прямо в камеру. На заднем плане тёплое освещение, полки и клавишный инструмент с надписью `QUATRO`. Субтитр: `to have full`.\n\n8. **Кадр 8.** Снова тёмный слайд. Вверху `FULL CONTROL` и крупное `No computer use.`. В центре карточка `Your agent` с синей точкой, ниже красная зачёркнутая плашка `Computer use · screenshots + clicks`, ещё ниже — пустое окно `Your Electron app`. Субтитр: `using computer use`.\n\n9. **Кадр 9.** На том же слайде внутри окна Electron-приложения появляется логотип и название `Chromium`. Визуально показано, что агент подключается к Chromium, находящемуся внутри приложения. Субтитр: `that runs inside`.\n\n10. **Кадр 10.** Возврат к автору в той же тёплой комнате, средний крупный план. Субтитр: `And this is`.\n\n11. **Кадр 11.** Новый слайд: `REASON 01` и `It reads the DOM.`. В верхнем блоке `COMPUTER USE SEES` изображён размытый интерфейс с подписью `Pixels` и пояснением `a guess at what's on screen`. Ниже жёлтая рамка `CDP SEES` пока пустая. Субтитр: `full access to`.\n\n12. **Кадр 12.** Жёлтый блок `CDP SEES` заполняется HTML-подобным кодом: `div`, `button id=\"export\"`, `input`, `status`, `timeline`, значения `Q3 recap`, `Rendering 42%`, `14 clips`. Субтитр: `not just screenshots.`.\n\n13. **Кадр 13.** Слайд `REASON 02` с заголовком `It sees what's hidden.`. Вверху изображён макет приложения с кнопкой `Export`, ниже пустая панель с вкладками `Console` и `Network`. Субтитр: `aren't visible,`.\n\n14. **Кадр 14.** В панели появляются ошибки: красным показано `TypeError: fps is undefined`, справа `export.ts:42`; ниже — сетевой запрос `POST /api/export` и ответ `500`. Субтитр: `which means that`.\n\n15. **Кадр 15.** В окне приложения добавляется красная плашка `Test failed: export`, при этом ошибка консоли и ответ `500` остаются видны. Субтитр: `it's super easy`.\n\n16. **Кадр 16.** Сравнительный слайд `3 AGENTS · COMPUTER USE` с крупным тезисом `One screen. One mouse.`. В центре одно общее окно приложения: поле `Hello` и кнопки `Save`, `Export`, `Delete`. Субтитр: `running multiple different`.\n\n17. **Кадр 17.** На одном и том же окне появляются три цветных курсора с подписями `Agent 1`, `Agent 2`, `Agent 3`. Они одновременно тянутся к разным элементам интерфейса, а текст в поле становится смешанным. Субтитр: `use is super`.\n\n18. **Кадр 18.** Слайд меняется на `3 AGENTS · CDP` и тезис `One agent. One port.`. Сверху — три отдельные карточки агентов, снизу — три отдельных окна приложения. Соединительных линий пока нет. Субтитр: `they're all explicitly`.\n\n19. **Кадр 19.** Между каждым агентом и его приложением появляется вертикальная цветная линия через отдельный порт: `:9222`, `:9223`, `:9224`. Субтитр: `one debugging port.`.\n\n20. **Кадр 20.** Снова talking-head. 作者 поднимает указательный палец, переходя к следующему аргументу. Субтитр: `One more thing`.\n\n21. **Кадр 21.** Слайд `WHERE IT RUNS` с заголовком `Computer use`. Четыре карточки arranged в сетку 2×2: `macOS` с подписью `your laptop`, `Windows`, `Linux`, `Cloud VPS` с подписью `ubuntu · headless`. Субтитр: `usually does not`.\n\n22. **Кадр 22.** На карточках появляются статусы: зелёная галочка у `macOS`, красные крестики у `Windows`, `Linux` и `Cloud VPS`. Субтитр: `This means that`.\n\n23. **Кадр 23.** Карточка `macOS` дополнительно выделяется более яркой белой рамкой; остальные статусы сохраняются. Субтитр: `you wouldn't be`.\n\n24. **Кадр 24.** Карточка `Cloud VPS` обводится красной рамкой, под ней появляется красная плашка `No screen to click in the cloud`. Субтитр: `using the approach`.\n\n25. **Кадр 25.** Заголовок меняется на жёлтый `Over CDP`. У карточек `macOS`, `Windows` и `Linux` видны зелёные рамки и галочки; `Cloud VPS` в этом конкретном кадре остаётся тёмной без отметки. Субтитр: `any operating system.`.\n\n26. **Кадр 26.** Слайд `ONE VPS` с крупным `Spin up 21 agents.`. Внутри большой панели `vps-01 · ubuntu · headless` показана сетка мини-окон с цветными рамками и портами от `:9222` до `:9237`. Субтитр: `VPS somewhere and`.\n\n27. **Кадр 27.** Возврат к крупному плану автора в тёплой комнате. Субтитр: `It's been super`.\n\n28. **Кадр 28.** Последний talking-head-кадр, автор продолжает говорить в камеру. Видимый субтитр: `app Compound.`. Графической заставки или отдельного финального слайда нет.\n\n### 3. Визуальный стиль\n\n- **Формат кадра:** вертикальный 9:16. Live-shot сначала снят слегка снизу и под углом, затем чередуется с вертикальными инфографическими слайдами.\n- **Композиция:** в графике заголовки находятся сверху, основная схема — в центре, субтитры — в нижней части. Схемы с агентами построены в три вертикальные колонки; сравнение ОС — в сетку 2×2.\n- **Фон и карточки:** почти чёрный фон с faint dotted grid; элементы выполнены в виде тёмно-серых карточек с тонкими контурами и скруглёнными углами. Окна приложения имитируют macOS-окна с красной, жёлтой и зелёной кнопками.\n- **Цвета:** белый — основной текст; серый — вспомогательные подписи; жёлтый — ключевые акценты и команды; синий, фиолетовый и оранжевый — постоянная цветовая маркировка Agent 1/2/3; зелёный — успешные статусы, красный — ошибки и ограничения.\n- **Шрифты:** крупный жирный sans-serif для заголовков и тезисов; маленькие uppercase-подписи с разрядкой; моноширинный шрифт для HTML-кода, портов и CLI-команды.\n- **Монтаж:** первые два кадра — красный b-roll рабочего места; далее инфографика собирается постепенно, элементы появляются по очереди. Автор периодически возвращается в кадре между тематическими блоками.\n- **Субтитры:** крупные белые английские субтитры с чёрной обводкой, без отдельной плашки; в предоставленных кадрах видны только фрагменты предложений.\n\n### 4. Хук\n\n- В первых двух кадрах сразу появляется масштабный тезис `Run 10 billion Electron apps at the same time`.\n- Его цепляют сочетание насыщенного красного developer-окружения, нескольких экранов с кодом и очень крупной цифры `10 billion`.\n- Сразу после обещания масштаба ролик переходит к трём агентам, worktree и отдельным dev-серверам, поэтому зритель быстро понимает, что автор предлагает конкретную схему параллельного тестирования.\n\n### 5. CTA и финал\n\n- В транскрипте финальная реплика — `so give it a shot`.\n- Последние два отобранных кадра возвращаются к автору; последний видимый субтитр — `app Compound.`.\n- В самих кадрах нет кнопки, ссылки, @handle, призыва «follow», «comment» или отдельного брендированного end card. CTA фактически произносится голосом.\n\n### 6. Формат и длительность\n\n- Вертикальный короткий ролик, продолжительность **83,9 секунды**, около **1:24**.\n- В подборке **28 кадров**, снятых примерно с интервалом в 3 секунды.\n- Формат —混合ный: talking-head, b-roll рабочего места и motion-графика с UI-макетами.\n- Озвучка и текст на экране — английские; основная аудитория — разработчики, работающие с Electron и AI-агентами."
+ },
+ "Ddn2XyhoH2l": {
+  "meta": {
+   "author": "sergio114_",
+   "likes": 2578,
+   "comments": 132,
+   "desc": "Продолжаем работать с ИИ..",
+   "url": "https://www.instagram.com/reel/Ddn2XyhoH2l/",
+   "duration": 45.8
+  },
+  "n_frames": 15,
+  "transcript": {
+   "lang": "ru",
+   "duration": 45.8,
+   "text": "Блять, мы на прошлой неделе нахуй делали с тобой, блять, диплоя на сервер. Ты выебал мне всем озгиблять с ошибками, я тебе нахуй сказал, блять, запиши сучара вот этот вот последовательный протокол, который проходит без ошибок. Ты сказал, что ты его записал. Мы сейчас опять начали делать диплой. Ты сказал мне, я прочитал, блять, файл инструкцию, как работать, блять, с удаленным сервером. Мы начали делать, я сейчас по коду вижу, что ты мне пишешь ебаны и команды, которые нахуй вообще не должны здесь быть. Ты сейчас опять начал выдумывать, блять, ты думаешь, вот если я тебе в инструкции, в начале сказал, что раз разговаривай со мной, как со школьником, блять, поясняй каждую команду и уже, блять, прошло у нас нахуй полгода, ты думаешь, я не научился, блять, видеть, когда ты мне хуйнил, с уёша, когда блять, нормально делаешь. Давай блять, завязывай, убери вообще из инструкции.",
+   "segments": [
+    {
+     "start": 0.0,
+     "end": 4.6,
+     "text": "Блять, мы на прошлой неделе нахуй делали с тобой, блять, диплоя на сервер."
+    },
+    {
+     "start": 4.6,
+     "end": 13.5,
+     "text": "Ты выебал мне всем озгиблять с ошибками, я тебе нахуй сказал, блять, запиши сучара вот этот вот последовательный протокол, который проходит без ошибок."
+    },
+    {
+     "start": 13.5,
+     "end": 18.3,
+     "text": "Ты сказал, что ты его записал. Мы сейчас опять начали делать диплой."
+    },
+    {
+     "start": 18.3,
+     "end": 23.2,
+     "text": "Ты сказал мне, я прочитал, блять, файл инструкцию, как работать, блять, с удаленным сервером."
+    },
+    {
+     "start": 23.2,
+     "end": 28.8,
+     "text": "Мы начали делать, я сейчас по коду вижу, что ты мне пишешь ебаны и команды, которые нахуй вообще не должны здесь быть."
+    },
+    {
+     "start": 28.8,
+     "end": 43.7,
+     "text": "Ты сейчас опять начал выдумывать, блять, ты думаешь, вот если я тебе в инструкции, в начале сказал, что раз разговаривай со мной, как со школьником, блять, поясняй каждую команду и уже, блять, прошло у нас нахуй полгода, ты думаешь, я не научился, блять, видеть, когда ты мне хуйнил, с уёша, когда блять, нормально делаешь."
+    },
+    {
+     "start": 43.7,
+     "end": 45.8,
+     "text": "Давай блять, завязывай, убери вообще из инструкции."
+    }
+   ]
+  },
+  "analysis": "### 1. О чём рилс по существу\n\n- Это UGC-ролик о работе с ИИ при деплое на удалённый сервер.\n- В голосовой дорожке автор резко и с матом отчитывает ИИ: на прошлой неделе они уже выстраивали рабочий протокол, но ИИ снова выдумывает команды, выдаёт ошибки и игнорирует инструкцию.\n- Смысловой конфликт: внешне автор выглядит спокойным и сосредоточенным, а его промты звучат как агрессивная разгромная речь.\n- Ролик не показывает решение проблемы или успешный деплой — это скорее comedic-take на раздражение от ИИ.\n\n### 2. Кадры по порядку\n\n**Кадр 1.**  \nБоковой профиль молодого мужчины в белой футболке за столом. Он смотрит на ноутбук справа, большой RGB-микрофон с поп-фильтром занимает центр кадра и светится красно-розовым. На заднем плане — жёлтая стена, часы и потолочные споты. Внизу по центру уже стоят две белые текстовые плашки: «как я выгляжу, работая с ИИ:» и «также, как звучат мои промты:».\n\n**Кадр 2.**  \nТот же боковой план. Руки автора находятся на ноутбуке, он продолжает работать за клавиатурой. Микрофон всё ещё светится красным, экран ноутбука даёт холодный сине-фиолетовый отсвет. Текстовые плашки сохраняются без изменений.\n\n**Кадр 3.**  \nПозиция почти такая же: лицо автора с левой стороны, микрофон в центре, ноутбук справа. Он смотрит вниз на экран и продолжает печатать. Цвет микрофона остаётся красно-розовым.\n\n**Кадр 4.**  \nСнова тот же рабочий ракурс. Микрофон переходит в сине-зелёный цвет, что заметно контрастирует с тёплой комнатой. Плашки с объяснением формата остаются в центре нижней части кадра.\n\n**Кадр 5.**  \nАвтор по-прежнему работает боком за столом, его руки тянутся к ноутбуку. Микрофон светится преимущественно сине-зелёным. Никаких новых графических элементов не появляется.\n\n**Кадр 6.**  \nТот же план с небольшим изменением положения рук. Микрофон выглядит ярко-зелёным, экран ноутбука частично виден справа. Постоянная подпись остаётся поверх изображения.\n\n**Кадр 7.**  \nСерьёзный профиль автора, взгляд направлен к ноутбуку, микрофон на переднем плане. Подсветка микрофона снова меняет оттенок, появляются зелёные и красноватые участки. Плашки те же.\n\n**Кадр 8.**  \nКадр становится заметно ближе к лицу автора. Он перестаёт печатать, подпирает подбородок рукой и смотрит вверх в сторону экрана. Микрофон остаётся справа от лица и светится зелёным. Это первая отчётливая поза «раздумья/раздражения».\n\n**Кадр 9.**  \nНовый ракурс: лицо автора крупно в левом верхнем углу, он наклоняется к двум экранам. Слева стоит тёмно-синий ноутбук, справа — большой светлый монитор с текстовым интерфейсом. В правом нижнем углу появляется пиксельная вставка: розовый персонаж у старого компьютера с повторяющимся зелёным словом «LOADING».\n\n**Кадр 10.**  \nСхожий крупный план. Большой монитор справа заполнен строками текста или команд, но содержимое слишком мелкое для точного чтения. Вставка с пиксельным персонажем и «LOADING» остаётся внизу справа.\n\n**Кадр 11.**  \nТот же ракурс с двумя мониторами. Автор смотрит на экраны, микрофон в центре светится красно-оранжевым. Повторяющийся «LOADING» в пиксельной вставке визуально поддерживает тему ожидания от ИИ.\n\n**Кадр 12.**  \nКомпозиция практически повторяет предыдущий кадр: лицо слева, микрофон по центру, правый монитор с большим объёмом текста. Пиксельный персонаж по-прежнему изображён в правом нижнем углу. Внизу слева видна рука автора.\n\n**Кадр 13.**  \nОтдельный крупный портрет. Автор смотрит вверх и в сторону, подпирая щеку рукой. Микрофон находится слева и светится зелёно-красным. Фон — тёмно-коричневая вертикальная панель или дверь. Вставка «LOADING» исчезла.\n\n**Кадр 14.**  \nПочти повторяет предыдущий портрет: та же поза с рукой под щекой, тот же крупный план лица и микрофон слева. Текстовая плашка всё ещё перекрывает нижнюю часть лица и корпуса.\n\n**Кадр 15.**  \nФинальный кадр без лица автора. На столе видны ноутбук с тёмно-синим экраном слева и большой монитор с светлым текстовым интерфейсом справа; на экране — длинные строки текста, похожие на переписку или команды. Микрофон обрезан правым краем кадра. Постоянная плашка остаётся на экране.\n\n### 3. Визуальный стиль\n\n- **Формат кадра:** вертикальное видео 9:16, съёмка в домашнем рабочем пространстве.\n- **Композиция:** в первых кадрах лицо автора занимает левую часть, микрофон используется как центральный визуальный якорь, ноутбук находится справа. Затем камера уходит к экранам, после чего появляется крупный портрет и финальный insert с мониторами.\n- **Плашки:** во всех 15 кадрах сохраняются две горизонтальные белые полосы с чёрным текстом. Шрифт простой, без засечек, с равномерным интервалом между буквами; визуально похож на моноширинный. Текст набран строчными буквами и написан с формой «промты».\n- **Цвет:** комната освещена тёплым жёлто-оранжевым светом. Экраны дают холодные синий и фиолетовые оттенки. Микрофон постоянно меняет цвет: розовый, красный, синий, зелёный, оранжевый.\n- **Дополнительная графика:** только в кадрах 9–12 в правом нижнем углу появляется пиксельный розовый персонаж за старым компьютером и зелёный текст «LOADING».\n- **Монтаж:** несколько относительно статичных планов с простыми сменами ракурса; в первых восьми кадрах меняются в основном поза рук, взгляд и свет микрофона. Спецэффектов и сложных переходов в представленных кадрах не видно.\n- **Субтитры:** отдельных субтитров с фактической речью нет. Видна только постоянная поясняющая надпись, которая не пересказывает каждую фразу.\n\n### 4. Хук\n\n- **Визуальный хук:** сразу виден серьёзный человек, ноутбук и профессиональный RGB-микрофон — зритель понимает, что речь пойдёт о работе с ИИ.\n- **Текстовый хук:** надпись сразу обещает сравнение: «как я выгляжу» против того, «как звучат мои промты».\n- **Аудиоцепление:** первая же фраза начинается с резкой нецензурной претензии и воспоминания о неудачном деплое. Контраст между спокойной внешностью и агрессивной подачей промтов создаёт основной комизм ролика.\n\n### 5. CTA и финал\n\n- Явного CTA нет: не видно просьбы подписаться, поставить лайк, сохранить ролик или перейти по ссылке.\n- Финальная реплика заканчивается требованием убрать ненужное объяснение из инструкции.\n- Последний визуальный кадр — не итог успешного деплоя и не призыв к действию, а повторный показ рабочего стола, ноутбука и текста на мониторе. Разрешение конфликта не показано.\n\n### 6. Формат и длительность\n\n- Вертикальный Reel, 9:16.\n- Длительность: **45,8 секунды**.\n- Основной формат — одна длинная разговорная озвучка поверх бытовых кадров работы за компьютером.\n- Визуально это не классический talking head, а мини-серия из нескольких простых ракурсов: работа у ноутбука, экраны, крупный портрет и финальный insert с техникой."
+ },
+ "DdpdeD-HPsJ": {
+  "meta": {
+   "author": "chase.h.ai",
+   "likes": 0,
+   "comments": 0,
+   "desc": "Карусель из 9 слайдов. Описание: Comment \"Jarvis\" to learn how to get my exact setup",
+   "url": "https://www.instagram.com/p/DdpdeD-HPsJ/",
+   "duration": 0
+  },
+  "n_frames": 9,
+  "transcript": {
+   "text": ""
+  },
+  "analysis": "## 1. О чём по существу\n\nСерия из 9 слайдов продвигает **JARVIS OS 2.0 / Agentic OS V2** — персональную локальную AI-систему для работы в течение дня.\n\nВ системе объединены:\n\n- **Claude Code / Codex** — выполнение задач;\n- **Obsidian vault** — память и хранение Markdown-файлов;\n- **Whisper + Kokoro** — локальные распознавание и синтез речи;\n- **JEV** — классификатор, который распределяет запросы по трём уровням;\n- **Cockpit + HUD** — два интерфейса к одной системе.\n\nАвтор объясняет, как JEV выбирает уровень обработки, показывает архитектуру, четыре шага установки и предлагает в конце оставить комментарий **“JARVIS”**, чтобы получить репозиторий и установочный промпт.\n\n---\n\n## 2. Кадры по порядку\n\n### Кадр 1 — обложка и обещание\n\n- Заголовок: **“THE V2 BUILD”**.\n- Крупный заголовок: **“Build Your JARVIS”**, где `JARVIS` выделен ярко-синим цветом.\n- Круглая синяя печать **“2.0”**.\n- Подпись: **“one prompt installs it. it runs your whole day →”** — один промпт устанавливает систему, и она работает весь день.\n- Чёрная плашка **“NOW ROUTED BY JEV”**.\n- Слева перечислены компоненты:\n  - `CLAUDE CODE + CODEX — The engine`;\n  - `OBSIDIAN — The memory`;\n  - `LOCAL VOICE — Ears + mouth`;\n  - `JEV — The classifier`;\n  - `TWO DASHBOARDS — The face`.\n- Справа — тёмный интерфейс JARVIS с графиками, статусом системы, вкладками `Claude Code` и `Codex`.\n- Внизу — терминал с командами `speak`, `route`, `remember`, оранжевый робот, логотип JEV и синий персонаж, указывающий на схему маршрутизации.\n- Визуально это одновременно обложка, схема продукта и обещание полноценной AI-операционной системы.\n\n### Кадр 2 — что делает JEV\n\n- Верхняя строка: `The JARVIS OS 2.0`, чёрная плашка `ROUTED BY JEV`, номер `02`.\n- Заголовок: **“What Jev Actually Does”**.\n- В右上 наклеена рваная бумажная заметка: **“IT DOESN’T TALK. IT DECIDES.”**\n- Слайд объясняет, что JEV:\n  - использует модель `System One` от TypeSafe;\n  - не пишет текст, а выбирает один ответ из фиксированного списка;\n  - классифицирует каждый голосовой запрос и отправляет его в `Tier 1`, `Tier 2` или `Tier 3`;\n  - сокращает маршрутизацию примерно с 5 секунд до менее чем одной секунды.\n- Отдельно выделена цена: **$0.042 за миллион входных токенов**, выход бесплатный.\n- Внизу — сравнение:\n  - `WITHOUT JEV`: основная модель маршрутизирует запрос примерно за 5 секунд;\n  - `WITH JEV`: классификатор делает это менее чем за секунду.\n- Внизу мелким шрифтом заявлено ускорение примерно до `200x` и снижение стоимости до `400x` по сравнению с LLM-классификацией.\n- Есть иконки списка, ветвления, секундомера и монеты; внизу — слоган `MINDSET: SPEAK. ROUTE. REMEMBER. REPEAT.`\n\n### Кадр 3 — принцип работы\n\n- Заголовок: **“How It Works”**.\n- Справа — заметка **“THE ADVANTAGE”** с пунктами:\n  - одинаковые кнопки в двух приложениях;\n  - одинаковый голос в двух приложениях;\n  - отсутствие базы данных;\n  - использование только Markdown.\n- Основная схема состоит из трёх шагов:\n  1. `You` — пользователь говорит или нажимает кнопку в Obsidian или HUD;\n  2. `Jev` — классифицирует запрос и выбирает нужный уровень;\n  3. `Your agent` — Claude Code или Codex выполняет работу и сохраняет результат в vault.\n- Справа внизу заметка: **“Show up with answers. Not open tabs.”**\n- В нижней части — большая архитектурная диаграмма с двумя входами, `The Bridge`, JEV, тремя уровнями обработки и общим хранилищем `THE VAULT`.\n- Схема показывает связку: запрос → Obsidian plugin / HUD → Bridge → JEV → Tier 1/2/3 → отчёт или терминал → память.\n\n### Кадр 4 — пять необходимых частей\n\n- Заголовок: **“The 5 Parts You Need”**.\n- На бумажной заметке: **“FIVE PARTS. ONE SYSTEM. THAT’S IT.”**\n- Таблица разделена на две колонки: `Part` и `What It Does`.\n- Перечислены:\n  1. `Claude Code / Codex` — двигатель, выполняющий реальную работу;\n  2. `Obsidian vault` — память, где отчёты сохраняются в Markdown;\n  3. `Whisper + Kokoro` — уши и рот, локальная работа с аудио;\n  4. `JEV` — классификатор, сортирующий запросы по уровням;\n  5. `Cockpit + HUD` — два представления одной системы.\n- Строка с JEV выделена серо-голубой заливкой и значком `NEW`.\n- Внизу — заметки `Focus on wiring. Not busywork.` и обведённый призыв `DO THIS NOW. IT COMPOUNDS.`\n\n### Кадр 5 — первый шаг: подключение мозга\n\n- Заголовок: **“Step 1: Wire the Brain”**.\n- Наклеенная заметка: **“SKILLS ARE THE BRAIN CELLS.”**\n- Слева объясняется, что система состоит из Claude Code или Codex и папки со skills:\n  - один skill = один файл `SKILL.md`;\n  - каждая кнопка dashboard запускает отдельный skill.\n- Перечислены стартовые кнопки:\n  - `Plan Today` — три главных дела и расписание;\n  - `Inbox Brief` — разобранная почта;\n  - `Intel Brief` — новости AI за сегодня;\n  - `Deep Research` — исследовательский отчёт в vault;\n  - `Weekly Review` — итоги недели с оценкой.\n- Отдельное правило: каждая кнопка должна ссылаться на настоящий проверенный `SKILL.md`.\n- Справа — тёмный интерфейс `SKILLS QUICK ACCESS` с кнопками `Plan Today`, `Inbox Brief`, `Deep Research`, `Content Cascade`, а также голосовой блок `Tap to talk`.\n- Внизу: кнопки работают в обоих приложениях и выбираются через `Customize dashboard`.\n\n### Кадр 6 — второй шаг: память\n\n- Заголовок: **“Step 2: Build the Memory”**.\n- Заметка: **“If it’s not in the vault, it didn’t happen.”**\n- Слева показана структура папок:\n  - `vault/`;\n  - `inbox/` — всё захваченное;\n  - `projects/` — незавершённые работы;\n  - `content/` — опубликованные материалы;\n  - `wiki/` — накопленные знания.\n- Справа — четыре пронумерованных правила:\n  1. каждый отчёт сохраняется в Markdown, без базы данных;\n  2. ежедневные заметки содержат план, расписание и три приоритета;\n  3. команда `/harvest` превращает завершённый проект в статью wiki;\n  4. оба dashboard читают одни и те же файлы.\n- Внизу — широкая тёмная панель с яркой сетью точек и связей, иллюстрирующая граф заметок, отчётов и разговоров.\n- Подпись: **“Notes, reports and conversations link into one graph. Your agent reads it, and so can you.”**\n\n### Кадр 7 — третий шаг: голос\n\n- Заголовок: **“Step 3: Add the Voice”**.\n- Заметка: **“Your audio never leaves the machine.”**\n- В центре — тёмное окно с названием `CLAUDE` и подписью `Original Jarvis core • Claude Code mode`.\n- В интерфейсе показаны состояния `Idle`, `Listening`, `Working`, `Speaking`, `Error`, а также кнопка `Auto`.\n- Под окном: **“The orb shows every state: listening, working, speaking.”**\n- Ниже расположены три карточки:\n  - `TIER 1` — правила и сохранённые данные, мгновенный ответ на запрос о приоритетах;\n  - `TIER 2` — небольшая быстрая модель для краткого новостного резюме;\n  - `TIER 3` — реальная работа с открытием терминала Claude Code или Codex.\n- Слева внизу — инструкции:\n  - `Ctrl+Alt+J` из любого приложения;\n  - говорить, затем делать паузу, локально распознаёт Whisper;\n  - Kokoro отвечает вслух.\n- На бумажной заметке: **“MEET JEV”**, `It doesn’t write answers. It picks the tier. Without it: ~5 seconds per route.`\n\n### Кадр 8 — четвёртый шаг: интерфейсы\n\n- Заголовок: **“Step 4: Install the Face”**.\n- Заметка: **“ONE PROMPT. TWO DASHBOARDS.”**\n- Сверху: `Open Claude Code or Codex. Paste this:`\n- В рамке показан промпт:\n  **“Clone the Agentic OS V2 repo into ~/agentic-os and set it up for me.”**\n- Справа перечислены действия:\n  - система устанавливает недостающие компоненты;\n  - пользователь выбирает кнопки;\n  - при проблеме можно выполнить `Run the doctor`.\n- Большая нижняя часть — тёмный dashboard `AGENTIC OS V2`:\n  - переключатель `Codex / Claude Code`;\n  - режимы `Terminal / Glass`;\n  - показатель использования `32%`;\n  - метрики YouTube, Instagram и TikTok;\n  - последний загруженный материал;\n  - кнопки `Plan Today`, `Inbox Brief`, `Intel Brief`, `Deep Research`, `Weekly Review`;\n  - расписание на сегодня и список задач.\n- Подпись: **“The Obsidian cockpit: usage, metrics, one-click workflows and today’s plan, all read from your vault.”**\n\n### Кадр 9 — финальный CTA\n\n- Вверху — карточка профиля **Chase AI** с оранжевым роботом и подписью `AI workflows • agents • Claude Code`.\n- В карточке есть кнопки `Follow` и `Message`.\n- Центральный рваный лист с крупным текстом: **“Comment ‘JARVIS’”**.\n- Ниже: `To get the repo + install prompt`.\n- Ещё один призыв — **“Save for later”** с иконкой закладки.\n- Внизу: `Follow • Chase AI`.\n- Оформление повторяет стиль бумажных заметок, скотча и маркерных линий, но уже без технической схемы.\n\n---\n\n## 3. Визуальный стиль\n\n- **Формат оформления:** вертикальная графическая карусель, близкая к формату 4:5.\n- **Основа:** светлая кремовая бумага с видимой фактурой.\n- **Ассортимент:** рваные края, бумажные записки, малярный скотч, нарисованные стрелки, подчёркивания, круги и звёзды.\n- **Палитра:** чёрный, кремовый, ярко-синий, розовый для JEV, оранжевый для робота, жёлтые и голубые акценты.\n- **Шрифты:** крупные редакционные serif-заголовки с высоким контрастом; моноширинный или typewriter-шрифт для технических текстов; рукописный курсив для заметок; uppercase sans-serif для навигационных плашек.\n- **Композиция:** обложка и последующие слайды построены как инфографические плакаты с крупным заголовком, центральным объяснением, боковыми заметками и интерфейсными мокапами.\n- **Плашки:** чёрные скруглённые capsules вроде `ROUTED BY JEV`, бумажные стикеры, таблицы с рамками, browser/terminal-окна с красной, жёлтой и зелёной кнопками.\n- **Монтаж:** это не видео с операторскими кадрами, а последовательная смена 9 статичных дизайнов при перелистывании. Внутри слайдов видимого движения нет; анимация и переходы по предоставленным кадрам не определяются.\n- **Субтитры:** отдельных субтитров или нижней реплики нет. Текст встроен в композицию слайдов и сам выполняет функцию основного контента.\n- **Язык текста:** все надписи на слайдах английские.\n\n---\n\n## 4. Хук\n\nГлавный хук находится уже на первом слайде:\n\n- **“Build Your JARVIS”** — сразу обещает персональную AI-систему;\n- **“one prompt installs it. it runs your whole day”** — конкретное обещание простого запуска и автоматизации;\n- синий логотип `JARVIS`, интерфейс монитора и персонажи делают идею визуально ощутимой;\n- слово `JEV` и маркировка `2.0` добавляют ощущение новой версии и технологической новизны.\n\nПервый экран обещает не отдельную функцию, а целую систему, которая объединяет код, память, голос, маршрутизацию и интерфейсы.\n\n---\n\n## 5. CTA и финал\n\nФинальный призыв один и максимально конкретный:\n\n- написать комментарий **“JARVIS”**;\n- получить репозиторий и установочный промпт;\n- подписаться на **Chase AI**;\n- дополнительно предлагается сохранить пост.\n\n---\n\n## 6. Формат и длительность\n\n- **Тип:** статичная карусель из 9 вертикальных слайдов.\n- **Длительность:** в предоставленных метаданных указано `0 с`; пустой транскрипт также указывает, что аудио или речевой контент не зафиксированы.\n- Фактическая длительность просмотра карусели не задана: она зависит от того, сколько слайдов пользователь пролистает."
+ }
+}

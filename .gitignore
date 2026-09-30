@@ -67,3 +67,10 @@ venv.bak/
 .DS_Store
 Thumbs.db
 
+venv/
+node_modules/
+.env
+.env.*
+__pycache__/
+*.pyc
+.DS_Store
