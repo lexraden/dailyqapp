@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<!--
+  NameRadar AI — 9:16 кадр под рилс (1080x1920), формат FlipRadar AI.
+  Все данные в таблице — SIMULATED (см. ethics.md). Плашка DEMO скрывается через ?demo=0.
+  Анимация детерминированная: window.__setTime(секунды) выставляет кадр (для render.py);
+  без него страница крутится в реальном времени через requestAnimationFrame.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080">
+<title>NameRadar AI — dashboard</title>
+<style>
+  :root {
+    --bg: #07090f;
+    --panel: #0e131d;
+    --panel-2: #121926;
+    --line: #1f2a3a;
+    --text: #e9edf3;
+    --muted: #7d8898;
+    --green: #39ff88;
+    --green-dim: #1f9c55;
+    --cyan: #5fd3f3;
+    --grey: #6c7482;
+    --magenta: #e04a9a;
+    --zoom: 1;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; background: var(--bg); overflow: hidden; }
+  body {
+    font-family: "Liberation Sans", "DejaVu Sans", Arial, sans-serif;
+    color: var(--text);
+  }
+  .mono { font-family: "DejaVu Sans Mono", "Liberation Mono", monospace; }
+
+  /* ---------- кадр + «камера» ---------- */
+  #frame {
+    position: relative; width: 1080px; height: 1920px; overflow: hidden;
+    background:
+      radial-gradient(1200px 900px at 70% 35%, #13233a 0%, transparent 60%),
+      radial-gradient(900px 700px at 10% 90%, #0d2a1c 0%, transparent 60%),
+      linear-gradient(180deg, #05070b 0%, #0a0f18 55%, #05070b 100%);
+  }
+  #camera {
+    position: absolute; inset: 0;
+    transform: scale(var(--zoom));
+    transform-origin: 50% 42%;
+  }
+  #scene {
+    position: absolute; inset: 0;
+    perspective: 1800px;
+    perspective-origin: 50% 30%;
+  }
+  /* монитор с дашбордом, наклон как у референса */
+  #monitor {
+    position: absolute; left: 0px; top: 150px; width: 1030px; height: 1430px;
+    border-radius: 28px;
+    background: var(--bg);
+    border: 14px solid #020305;
+    box-shadow: 0 0 0 2px #1a1f28, 0 60px 160px rgba(0,0,0,.8), 0 0 120px rgba(57,255,136,.08);
+    transform: rotateX(9deg) rotateY(-7deg) rotateZ(-2.2deg);
+    transform-origin: 50% 0%;
+    overflow: hidden;
+    filter: saturate(1.1);
+  }
+  /* блики экрана */
+  #monitor::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(115deg, rgba(255,255,255,.07) 0%, transparent 28%, transparent 70%, rgba(95,211,243,.05) 100%);
+  }
+  #screen { position: absolute; inset: 0; padding: 26px 34px; }
+
+  /* ---------- тикер ---------- */
+  .ticker {
+    height: 58px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel);
+    overflow: hidden; position: relative; white-space: nowrap;
+  }
+  .ticker-track {
+    display: inline-flex; gap: 56px; padding: 14px 24px; font-size: 26px;
+    animation: ticker 8s linear infinite;
+  }
+  .ticker-track span b { color: var(--green); font-weight: 700; }
+  .ticker-track span i { color: var(--muted); font-style: normal; margin: 0 8px; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ---------- шапка ---------- */
+  header { display: flex; align-items: center; justify-content: space-between; margin: 26px 0 22px; }
+  .brand { display: flex; align-items: center; gap: 20px; }
+  .radar {
+    width: 74px; height: 74px; border-radius: 50%; position: relative;
+    border: 3px solid var(--green); box-shadow: 0 0 24px rgba(57,255,136,.45);
+    background: radial-gradient(circle, rgba(57,255,136,.18) 0%, transparent 70%);
+  }
+  .radar::before {
+    content: ""; position: absolute; inset: 6px; border-radius: 50%;
+    background: conic-gradient(from 0deg, rgba(57,255,136,.85), transparent 28%);
+    animation: sweep 1.6s linear infinite;
+  }
+  .radar::after {
+    content: ""; position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; margin: -5px;
+    border-radius: 50%; background: var(--green);
+  }
+  @keyframes sweep { to { transform: rotate(360deg); } }
+  .brand h1 { font-size: 46px; font-weight: 700; letter-spacing: .5px; }
+  .brand h1 em { color: var(--green); font-style: normal; }
+  .brand small { display: block; font-size: 20px; color: var(--muted); letter-spacing: 3px; margin-top: 4px; }
+  .live-dot {
+    display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--green);
+    margin: 0 8px 1px 8px; vertical-align: middle; animation: pulse 1s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; box-shadow: 0 0 12px var(--green); } 50% { opacity: .25; box-shadow: none; } }
+  .scans { text-align: right; }
+  .scans .lbl { font-size: 18px; color: var(--muted); letter-spacing: 2px; }
+  .scans .val { font-size: 40px; color: var(--cyan); font-weight: 700; }
+
+  /* ---------- KPI ---------- */
+  .kpis { display: grid; grid-template-columns: 1fr 1fr 0.8fr; gap: 18px; }
+  .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 22px 24px; }
+  .kpi .lbl { font-size: 18px; color: var(--muted); letter-spacing: 2px; }
+  .kpi .val { font-size: 58px; font-weight: 700; color: var(--green); margin: 8px 0 4px;
+              text-shadow: 0 0 22px rgba(57,255,136,.35); }
+  .kpi .val.white { color: var(--text); text-shadow: none; }
+  .kpi .delta { font-size: 20px; color: var(--green-dim); }
+
+  /* ---------- таблица ---------- */
+  .feed { margin-top: 22px; background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 18px 0 8px; }
+  .feed-title { display: flex; justify-content: space-between; padding: 0 26px 12px; font-size: 24px; }
+  .feed-title span:last-child { color: var(--muted); font-size: 20px; }
+  table { width: 100%; border-collapse: collapse; font-size: 28px; }
+  th { text-align: left; font-size: 17px; letter-spacing: 2px; color: var(--muted); font-weight: 400;
+       padding: 10px 18px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  td { padding: 12px 18px; border-bottom: 1px solid rgba(31,42,58,.6); white-space: nowrap; }
+  td.num, th.num { text-align: right; }
+  td.user { font-weight: 700; }
+  td.user span { color: var(--cyan); }
+  td.profit { color: var(--green); font-weight: 700; }
+  tbody tr { opacity: 0; transform: translateX(-60px);
+             animation: rowIn .45s cubic-bezier(.2,.8,.2,1) both; }
+  /* 1–2 строки уже на экране в кадре 0 (беззвучный формат: первый кадр должен быть «живым») */
+  tbody tr:nth-child(1) { animation-delay: -1s; }
+  tbody tr:nth-child(2) { animation-delay: -1s; }
+  tbody tr:nth-child(3) { animation-delay: .30s; }
+  tbody tr:nth-child(4) { animation-delay: .65s; }
+  tbody tr:nth-child(5) { animation-delay: 1.00s; }
+  tbody tr:nth-child(6) { animation-delay: 1.35s; }
+  tbody tr:nth-child(7) { animation-delay: 1.70s; }
+  tbody tr:nth-child(8) { animation-delay: 2.05s; }
+  @keyframes rowIn {
+    0%   { opacity: 0; transform: translateX(-60px); background: rgba(57,255,136,.0); }
+    60%  { opacity: 1; transform: translateX(0);    background: rgba(57,255,136,.14); }
+    100% { opacity: 1; transform: translateX(0);    background: rgba(57,255,136,0); }
+  }
+
+  /* бейджи */
+  .badge-cell { position: relative; width: 230px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px; border-radius: 999px;
+    font-size: 18px; font-weight: 700; letter-spacing: 1.5px;
+  }
+  .badge::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: currentColor; }
+  .b-under { color: var(--green); border: 2px solid var(--green); background: rgba(57,255,136,.10);
+             animation: blink 1.1s ease-in-out infinite; }
+  .b-scan  { color: var(--cyan); border: 2px dashed var(--cyan); background: rgba(95,211,243,.08);
+             animation: blink .7s steps(2, jump-none) infinite; }
+  .b-sold  { color: #04140b; background: var(--green); border: 2px solid var(--green);
+             box-shadow: 0 0 18px rgba(57,255,136,.55); }
+  .b-sold::before { content: "\2713"; width: auto; height: auto; background: none; font-size: 18px; }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+
+  /* смена статуса в строке: старый бейдж гаснет, новый вспыхивает */
+  .swap .old, .swap .new { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); }
+  .swap .old { animation: swapOut .25s ease both; }
+  .swap .new { opacity: 0; animation: swapIn .5s ease both; }
+  .swap .new.b-under { animation: swapIn .5s ease both, blink 1.1s ease-in-out infinite; }
+  .swap-a .old, .swap-a .new { animation-delay: 4.2s; }
+  .swap-a .new.b-under { animation-delay: 4.2s, 4.7s; }
+  .swap-b .old, .swap-b .new { animation-delay: 5.6s; }
+  @keyframes swapOut { to { opacity: 0; } }
+  @keyframes swapIn  { 0% { opacity: 0; transform: translateY(-50%) scale(1.6); } 100% { opacity: 1; transform: translateY(-50%) scale(1); } }
+  /* подсветка строки, когда она ушла в Sold */
+  tr.flash td { animation: rowFlash 1.2s ease-out 5.6s both; }
+  @keyframes rowFlash { 0% { background: rgba(57,255,136,.35); } 100% { background: rgba(57,255,136,0); } }
+
+  /* ---------- AI Valuation Engine (лог) ---------- */
+  .engine { margin-top: 20px; background: #05070b; border: 1px solid var(--line); border-radius: 20px; padding: 18px 26px; height: 246px; overflow: hidden; }
+  .engine h3 { font-size: 24px; font-weight: 700; margin-bottom: 10px; }
+  .engine h3 .brain { color: var(--magenta); }
+  .engine h3 small { color: var(--muted); font-weight: 400; font-size: 18px; margin-left: 10px; }
+  .log div { font-size: 20px; line-height: 1.55; color: #b8c0cc; opacity: 0; animation: logIn .2s ease both; }
+  .log .t { color: var(--muted); }
+  .log .g { color: var(--green); }
+  .log .c { color: var(--cyan); }
+
+  @keyframes logIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ---------- hook поверх всего ---------- */
+  #hook {
+    position: absolute; left: 50%; top: 1642px; width: 1060px; margin-left: -530px; z-index: 10;
+    text-align: center; font-weight: 700; font-size: 54px; line-height: 1.16; color: #fff;
+    letter-spacing: -.5px;
+    text-shadow:
+      -4px -4px 0 #000, 4px -4px 0 #000, -4px 4px 0 #000, 4px 4px 0 #000,
+      0 -5px 0 #000, 0 5px 0 #000, -5px 0 0 #000, 5px 0 0 #000,
+      -3px -5px 0 #000, 3px -5px 0 #000, -3px 5px 0 #000, 3px 5px 0 #000,
+      0 8px 22px rgba(0,0,0,.9);
+    transform: scaleX(.9);
+  }
+  #hook::before {
+    content: ""; position: absolute; inset: -60px -80px; z-index: -1;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,.55) 0%, transparent 70%);
+  }
+  #hook .emo { text-shadow: 0 6px 16px rgba(0,0,0,.8); font-family: "Noto Color Emoji", sans-serif; }
+
+  /* плашка DEMO (см. ethics.md) */
+  #demo {
+    position: absolute; right: 30px; bottom: 10px; z-index: 11;
+    font-size: 22px; letter-spacing: 3px; color: rgba(255,255,255,.75);
+    background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.25); border-radius: 10px; padding: 8px 16px;
+  }
+  body.no-demo #demo { display: none; }
+
+  /* зернистость/виньетка «снято на камеру» */
+  #vignette { position: absolute; inset: 0; z-index: 9; pointer-events: none;
+    background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0,0,0,.7) 100%); }
+</style>
+</head>
+<body>
+<div id="frame">
+  <div id="camera">
+    <div id="scene">
+      <div id="monitor">
+        <div id="screen">
+
+          <div class="ticker mono">
+            <div class="ticker-track">
+              <span>@getpay <i>sold</i><b>+$445</b></span>
+              <span>@tonbox <i>sold</i><b>+$550</b></span>
+              <span>@memeai <i>sold</i><b>+$205</b></span>
+              <span>@vpnx <i>bought</i><b>$420</b></span>
+              <span>@aiagent <i>flagged</i><b>+$1,870</b></span>
+              <span>@getpay <i>sold</i><b>+$445</b></span>
+              <span>@tonbox <i>sold</i><b>+$550</b></span>
+              <span>@memeai <i>sold</i><b>+$205</b></span>
+              <span>@vpnx <i>bought</i><b>$420</b></span>
+              <span>@aiagent <i>flagged</i><b>+$1,870</b></span>
+            </div>
+          </div>
+
+          <header>
+            <div class="brand">
+              <div class="radar"></div>
+              <div>
+                <h1>NameRadar <em>AI</em></h1>
+                <small>SCANNING TELEGRAM USERNAMES 24/7 <span class="live-dot"></span>LIVE</small>
+              </div>
+            </div>
+            <div class="scans mono">
+              <div class="lbl">USERNAMES SCANNED</div>
+              <div class="val" id="scans">48,210</div>
+            </div>
+          </header>
+
+          <div class="kpis">
+            <div class="kpi">
+              <div class="lbl">PROFIT THIS WEEK</div>
+              <div class="val mono" id="profit-week">$3,184</div>
+              <div class="delta">&#9650; 27.6% vs last week</div>
+            </div>
+            <div class="kpi">
+              <div class="lbl">PROFIT THIS MONTH</div>
+              <div class="val mono">$11,740</div>
+              <div class="delta">&#9650; 41.2% vs last month</div>
+            </div>
+            <div class="kpi">
+              <div class="lbl">NAMES HELD</div>
+              <div class="val white mono">37</div>
+              <div class="delta">9 listed</div>
+            </div>
+          </div>
+
+          <div class="feed">
+            <div class="feed-title"><span><span class="live-dot"></span>Live Autotrade Feed</span><span class="mono">fragment · p2p · otc</span></div>
+            <table class="mono">
+              <thead>
+                <tr><th>USERNAME</th><th class="num">BOUGHT</th><th class="num">EST. RESALE</th><th class="num">PROFIT</th><th>STATUS</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="user"><span>@</span>aiagent</td><td class="num">$610</td><td class="num">$2,480</td><td class="num profit">+$1,870</td>
+                    <td class="badge-cell"><span class="badge b-under">UNDERVALUED</span></td></tr>
+                <tr><td class="user"><span>@</span>getpay</td><td class="num">$95</td><td class="num">$540</td><td class="num profit">+$445</td>
+                    <td class="badge-cell"><span class="badge b-sold">SOLD</span></td></tr>
+                <tr><td class="user"><span>@</span>vpnx</td><td class="num">$420</td><td class="num">$1,850</td><td class="num profit">+$1,430</td>
+                    <td class="badge-cell swap swap-a"><span class="badge b-scan old">SCANNING</span><span class="badge b-under new">UNDERVALUED</span></td></tr>
+                <tr><td class="user"><span>@</span>dubaivip</td><td class="num">$320</td><td class="num">$1,450</td><td class="num profit">+$1,130</td>
+                    <td class="badge-cell"><span class="badge b-under">UNDERVALUED</span></td></tr>
+                <tr class="flash"><td class="user"><span>@</span>tonbox</td><td class="num">$140</td><td class="num">$690</td><td class="num profit">+$550</td>
+                    <td class="badge-cell swap swap-b"><span class="badge b-under old">UNDERVALUED</span><span class="badge b-sold new">SOLD</span></td></tr>
+                <tr><td class="user"><span>@</span>swapy</td><td class="num">$75</td><td class="num">$390</td><td class="num profit">+$315</td>
+                    <td class="badge-cell"><span class="badge b-scan">SCANNING</span></td></tr>
+                <tr><td class="user"><span>@</span>memeai</td><td class="num">$55</td><td class="num">$260</td><td class="num profit">+$205</td>
+                    <td class="badge-cell"><span class="badge b-sold">SOLD</span></td></tr>
+                <tr><td class="user"><span>@</span>cryptodao</td><td class="num">$180</td><td class="num">$760</td><td class="num profit">+$580</td>
+                    <td class="badge-cell"><span class="badge b-scan">SCANNING</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="engine mono">
+            <h3><span class="brain">&#9673;</span> AI Valuation Engine <small>model v3.2 · comps + length + keyword demand</small></h3>
+            <div class="log">
+              <div style="animation-delay:-1s"><span class="t">22:17:39</span> scan batch #4821 · 1,204 handles queued</div>
+              <div style="animation-delay:-1s"><span class="t">22:17:41</span> <span class="c">@vpnx</span> 4-char · comps $1.6k–$2.1k</div>
+              <div style="animation-delay:2.4s"><span class="t">22:17:44</span> <span class="c">@aiagent</span> keyword trend <span class="g">▲ 312%</span></div>
+              <div style="animation-delay:3.4s"><span class="t">22:17:46</span> floor check fragment · p2p · otc</div>
+              <div style="animation-delay:4.2s"><span class="t">22:17:48</span> <span class="c">@vpnx</span> flagged <span class="g">UNDERVALUED</span></div>
+              <div style="animation-delay:5.6s"><span class="t">22:17:51</span> <span class="c">@tonbox</span> offer accepted <span class="g">✓ +$550</span></div>
+              <div style="animation-delay:6.6s"><span class="t">22:17:53</span> relisting · next scan in 2s…</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="hook">AI is crazy… it resells Telegram usernames on autopilot<span class="emo">🫢💰🫢</span></div>
+  </div>
+  <div id="vignette"></div>
+  <div id="demo" class="mono">DEMO · SIMULATED DATA</div>
+</div>
+
+<script>
+(function () {
+  const params = new URLSearchParams(location.search);
+  if (params.get('demo') === '0') document.body.classList.add('no-demo');
+  const DURATION = parseFloat(params.get('dur') || '8');
+
+  const scansEl = document.getElementById('scans');
+  const weekEl = document.getElementById('profit-week');
+  const fmt = n => n.toLocaleString('en-US');
+
+  // Всё, что зависит от времени, но не является CSS-анимацией.
+  function paint(t) {
+    // счётчик сканов: ~ +37/сек с «рваным» шагом, как у живого сканера
+    scansEl.textContent = fmt(48210 + Math.floor(t * 37 + Math.sin(t * 7) * 4));
+    // недельный профит подскакивает, когда @tonbox уходит в Sold (5.6s)
+    weekEl.textContent = '$' + fmt(t >= 5.6 ? 3184 + 550 : 3184);
+    // zoom-in 1.0 → 1.08 за длительность ролика (ease-in-out)
+    const p = Math.min(Math.max(t / DURATION, 0), 1);
+    const e = p * p * (3 - 2 * p);
+    document.documentElement.style.setProperty('--zoom', (1 + 0.08 * e).toFixed(5));
+  }
+
+  // Детерминированный кадр для render.py: пауза всех CSS-анимаций + currentTime.
+  let manual = false;
+  window.__setTime = function (t) {
+    manual = true;
+    for (const a of document.getAnimations()) {
+      a.pause();
+      a.currentTime = t * 1000;
+    }
+    paint(t);
+  };
+
+  // Живой режим (просто открыть файл в браузере): цикл 8 с.
+  const t0 = performance.now();
+  let cycle = 0;
+  function loop(now) {
+    if (manual) return;
+    const elapsed = (now - t0) / 1000;
+    const t = elapsed % DURATION;
+    if (Math.floor(elapsed / DURATION) !== cycle) {
+      cycle = Math.floor(elapsed / DURATION);
+      for (const a of document.getAnimations()) a.currentTime = t * 1000;
+    }
+    paint(t);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+</script>
+
+</body>
+</html>

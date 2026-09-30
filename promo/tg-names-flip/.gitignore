@@ -1,0 +1,6 @@
+venv/
+frames/
+frames2/
+verify/
+preview.mp4
+_check_geom.py
